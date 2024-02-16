@@ -4,6 +4,7 @@ const { inputConsole } = require("./console")
 const config = require("./config")
 
 const bot = createBot(config.client)
+inputConsole.start()
 inputConsole.on("input", (input) => {
     if (input.startsWith("#")) {
         commandArg = input.slice(1, input.length).split(" ")
