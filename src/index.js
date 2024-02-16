@@ -1,12 +1,11 @@
 const { createBot } = require("./bot")
 const { parse } = require("./command")
-const { consoleLoop } = require("./console")
-
+const { inputConsole } = require("./console")
 const config = require("./config")
 
 const bot = createBot(config.client)
-
-consoleLoop((input) => {
+inputConsole.start()
+inputConsole.on("input", (input) => {
     if (input.startsWith("#")) {
         commandArg = input.slice(1, input.length).split(" ")
         parse(commandArg)

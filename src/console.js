@@ -1,4 +1,5 @@
 const readline = require('readline');
+const { EventEmitter } = require("events")
 
 const { Lock } = require("./lock")
 
@@ -7,16 +8,20 @@ const rl = readline.createInterface({
     output: process.stdout,
 });
 
-async function consoleLoop(callback) {
-    const lock = new Lock()
-    while (true) {
-        lock.lock()
-        rl.question('', (input) => {
-            callback(input)
-            lock.unlock()
-        })
-        await lock.status
+class Console extends EventEmitter {
+    async start() {
+        const lock = new Lock()
+        while (true) {
+            lock.lock()
+            rl.question('', (input) => {
+                this.emit("input", input)
+                lock.unlock()
+            })
+            await lock.status
+        }
     }
 }
 
-module.exports = { consoleLoop }
+const inputConsole = new Console()
+
+module.exports = { Console, inputConsole }
