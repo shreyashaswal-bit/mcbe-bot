@@ -1,3 +1,7 @@
-export declare function consoleLoop(
-  callback: (input: string) => any
-): Promise<void>;
+import { EventEmitter } from "events";
+
+export declare class Console extends EventEmitter {
+  start(): Promise<void>;
+}
+
+export const inputConsole: Console;
