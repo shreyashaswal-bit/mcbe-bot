@@ -10,21 +10,24 @@ const parse = properties.parse(config.translation)
  * @return {string} 
  */
 function translation(parameters, message) {
-    
+
     // 过滤颜色符号
     message = message.replace(/§[abcdefklor0-9]%/g, '');
 
     // 遍历翻译parameters
-    const list = parameters.map((value) => value = parse[value] || value);
-    
+    const list = parameters.map((value) => {
+        value = value.replace('%', '')
+        return value = parse[value] || value
+    });
+
     // 消息的翻译是否存在
     if (parse[message]) {
         // 判断消息是不是和multiplayer有关, 有的话就加黄色
         if (message.includes('multiplayer')) {
             message = parse[message] || message;
+            message = '§e' + message
         } else {
             message = parse[message] || message;
-            message = '§e' + message
         }
 
         // 获取对应的翻译后, 将翻译作为模板套parameters
