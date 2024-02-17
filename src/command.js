@@ -12,7 +12,7 @@ parser
     .command("exit")
     .description("退出程序")
     .action(async () => {
-        this.disconnect()
+        bot.close()
         process.exit(0)
     })
 
@@ -69,11 +69,9 @@ parser
 function parse(bot_, argv) {
     bot = bot_
     try {
-        parser.parse([null, null].concat(argv),)
+        parser.parse([null, null].concat(argv))
     }
     catch { }
 }
-
-parse(["form", "1", "1", "4"])
 
 module.exports = { parse }

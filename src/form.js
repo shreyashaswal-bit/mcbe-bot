@@ -27,7 +27,7 @@ function renderForm(form_data) {
         })
         result += "\n"
     }
-    return result
+    return s.mc(result)
 }
 
 module.exports = { renderForm }
