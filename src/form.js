@@ -4,7 +4,7 @@ const s = require("./consoleStyle")
 const form = null
 
 function renderForm(form_data) {
-    let form = typeof (form_data) === "string" ? JSON.parse(form_data) : form_data
+    let form = form_data instanceof String ? JSON.parse(form_data) : form_data
     if (form.type == "form") {
         result =
             `${s.s.blob}===== ${form.title} =====${s.clear}\n` +
@@ -27,7 +27,7 @@ function renderForm(form_data) {
         })
         result += "\n"
     }
-    return result
+    return s.mc(result)
 }
 
 module.exports = { renderForm }

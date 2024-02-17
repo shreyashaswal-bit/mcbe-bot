@@ -35,19 +35,19 @@ class Bot extends bedrock.Client {
 
         this.on('text', (param) => {
             if (param.type === 'chat') {
-                console.log(`[chat]${s.gray} <${param.source_name}> ${param.message}${s.clear}`);
+                console.log(s.mc`[chat] ${s.gray}<${param.source_name}> ${param.message}${s.clear}`);
             } else if (param.type === 'raw') {
-                console.log(`[raw]${s.gray} ${param.message}${s.clear}`);
+                console.log(s.mc`[raw] ${s.gray}${param.message}${s.clear}`);
             } else if (param.type === 'translation') {
-                console.log(`[translation]${s.yellow} ${param.parameters} ${param.message}${s.clear}`);
+                console.log(s.mc`[translation] ${param.parameters} ${param.message}`);
             } else if (param.type === 'whisper') {
-                console.log(`[whisper]${s.gray}${s.s.italic} ${param.source_name} 悄悄对你说: ${param.message}${s.clear}`)
+                console.log(s.mc`[whisper] ${s.gray}${s.s.italic}${param.source_name} 悄悄对你说: ${param.message}${s.clear}`)
             }
         })
 
         this.on('modal_form_request', (param) => {
             if (this.currentForm && this.autoCloseForm) {
-                console.log(`[form] 表单未完成, 新的表单 ${param.data.title} (id:${param.form_id}) 已自动关闭`)
+                console.log(s.mc`[form] 表单未完成, 新的表单 ${param.data.title} (id:${param.form_id}) 已自动关闭`)
                 this.cancelForm(param, 1) // busy
             } else {
                 this.currentForm = param

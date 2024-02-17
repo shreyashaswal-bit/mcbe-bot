@@ -74,6 +74,4 @@ function parse(bot_, argv) {
     catch { }
 }
 
-parse(["form", "1", "1", "4"])
-
 module.exports = { parse }
