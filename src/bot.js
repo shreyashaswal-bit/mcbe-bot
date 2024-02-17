@@ -8,6 +8,7 @@ const { sleep } = require("bedrock-protocol/src/datatypes/util")
 const config = require("./config")
 const { renderForm } = require("./form")
 const s = require("./consoleStyle")
+const { translation } = require('./translation')
 
 class Bot extends bedrock.Client {
     playerList = []
@@ -35,11 +36,12 @@ class Bot extends bedrock.Client {
 
         this.on('text', (param) => {
             if (param.type === 'chat') {
-                console.log(s.mc(`[chat] ${s.gray}<${param.source_name}> ${param.message}${s.clear}`))
+                console.log(s.mc(`[chat] <${param.source_name}> ${param.message}${s.clear}`))
             } else if (param.type === 'raw') {
                 console.log(s.mc(`[raw] ${s.gray}${param.message}${s.clear}`))
             } else if (param.type === 'translation') {
-                console.log(s.mc(`[translation] ${param.parameters} ${param.message}`))
+                // 将消息内容翻译
+                console.log(s.mc(`[translation] ${translation(param.parameters,param.message)}`))
             } else if (param.type === 'whisper') {
                 console.log(s.mc(`[whisper] ${s.gray}${s.s.italic}${param.source_name} 悄悄对你说: ${param.message}${s.clear}`))
             }
