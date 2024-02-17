@@ -15,6 +15,7 @@ class Bot extends bedrock.Client {
     currentForm = null
 
     autoCloseForm = true
+    autoRespawn = true
 
     constructor(config) {
         super(config)
@@ -56,6 +57,11 @@ class Bot extends bedrock.Client {
                 console.log(renderForm(param.data))
             }
         })
+
+        this.on('death_info', (param) => {
+            console.log(param)
+            if (this.autoRespawn) this.respawn()
+        })
     }
 
     chat(message) {
@@ -82,12 +88,22 @@ class Bot extends bedrock.Client {
         })
     }
 
+    action(id, position, result_position, face) {
+        this.queue("player_action", {
+            runtime_entity_id: this.entityId,
+            action: id,
+            position,
+            result_position,
+            face,
+        })
+    }
+
     respawn() {
         this.queue("player_action", {
             runtime_entity_id: this.entityId,
             action: 7,
-            position: {},
-            result_position: {},
+            position: { x: 0, y: 0, z: 0 },
+            result_position: { x: 0, y: 0, z: 0 },
             face: 0,
         })
     }

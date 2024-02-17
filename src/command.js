@@ -67,6 +67,20 @@ parser
     })
 
 parser
+    .command("action <id> [position] [result_position] [face]")
+    .addHelpText("after", "e.g.:")
+    .addHelpText("after", "  action 0 123,45,678 \t破坏123,45,678处的方块")
+    .addHelpText("after", "  action 21\t\t\t开始游泳")
+    .action(async (id, position_str = "0,0,0", result_position_str = "0,0,0", face_str = "0") => {
+        let temp = position_str.split(",")
+        let position = { x: temp[0], y: temp[1], z: temp[2] }
+        temp = result_position_str.split(",")
+        let resultPosition = { x: temp[0], y: temp[1], z: temp[2] }
+        let face = Number(face_str)
+        bot.action(Number(id), position, resultPosition, face)
+    })
+
+parser
     .command("respawn")
     .action(async () => {
         bot.respawn()
