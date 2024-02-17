@@ -36,7 +36,7 @@ function translation(parameters, message) {
                 .replace(`%${index + 1}$s`, value)
                 .replace(`%s`, value);
         });
-        return message.replace(/\s*#.*$/, '');
+        return message.replace(/\s*#\s*/g, ' ');
     } else {
         return `${list.join(', ')} ${message.includes('multiplayer') ? '§e' + message : message}`;
     }
