@@ -12,8 +12,9 @@ const parse = properties.parse(config.translation)
 function translation(parameters, message) {
     return message.replace(/(?:%|^)([a-zA-Z0-9_.]+)/g, (str, param) => {
         let translatedMessage = parse[param].replace(/\s*#\s*.*/g, '');
+        let i = 0
         return translatedMessage.replace(/%(?:([0-9])\$)?s/g, (str, param) =>
-            param ? parameters[Number(param) - 1] : parameters[0]
+            param ? parameters[Number(param) - 1] : parameters[i++]
         )
     })
 }
