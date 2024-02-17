@@ -70,6 +70,49 @@ parser
     .command("action <id> [position] [result_position] [face]")
     .addHelpText("after", "e.g.:")
     .addHelpText("after", "  action 0 123,45,678 \t破坏123,45,678处的方块")
+    .addHelpText("after", "  action 21\t\t开始游泳")
+    .action(async (id, position_str = "0,0,0", result_position_str = "0,0,0", face_str = "0") => {
+        let temp = position_str.split(",")
+        let position = { x: Number(temp[0]), y: Number(temp[1]), z: Number(temp[2]) }
+        temp = result_position_str.split(",")
+        let resultPosition = { x: Number(temp[0]), y: Number(temp[1]), z: Number(temp[2]) }
+        let face = Number(face_str)
+        bot.action(Number(id), position, resultPosition, face)
+    })
+
+parser
+    .command("respawn")
+    .action(async () => {
+        bot.respawn()
+    })
+
+parser
+    .command("tp <position>")
+    .action(async (position_str) => {
+        let temp = position_str.split(",")
+        let position = {
+            x: Number(temp[0]),
+            y: Number(temp[1]),
+            z: Number(temp[2]),
+        }
+        console.log(position)
+        bot.write("move_player", {
+            runtime_id: String(bot.entityId),
+            position: position,
+            pitch: 0,
+            yaw: 0,
+            head_yaw: 0,
+            mode: 0,
+            on_ground: true,
+            ridden_runtime_id: 0,
+            tick: 10,
+        })
+    })
+
+parser
+    .command("action <id> [position] [result_position] [face]")
+    .addHelpText("after", "e.g.:")
+    .addHelpText("after", "  action 0 123,45,678 \t破坏123,45,678处的方块")
     .addHelpText("after", "  action 21\t\t\t开始游泳")
     .action(async (id, position_str = "0,0,0", result_position_str = "0,0,0", face_str = "0") => {
         let temp = position_str.split(",")

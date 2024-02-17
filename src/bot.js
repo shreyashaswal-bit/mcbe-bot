@@ -64,6 +64,8 @@ class Bot extends bedrock.Client {
         })
     }
 
+
+
     chat(message) {
         this.queue('text', {
             type: 'chat',
@@ -121,7 +123,7 @@ class Bot extends bedrock.Client {
         this.write('modal_form_response', {
             form_id: param.form_id,
             has_response_data: false,
-            has_cancel_reason: false,
+            has_cancel_reason: true,
             cancel_reason: reason
         })
     }

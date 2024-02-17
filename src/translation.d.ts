@@ -5,4 +5,9 @@
  * @param {string} message 消息
  * @return {string} 翻译后的整个字符串
  */
-export declare function translation(parameters: string[], message: string): string
+export declare function translation(
+  parameters: string[],
+  message: string
+): string;
+
+export declare function format(msg: string): string;
