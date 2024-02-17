@@ -82,6 +82,16 @@ class Bot extends bedrock.Client {
         })
     }
 
+    respawn() {
+        this.queue("player_action", {
+            runtime_entity_id: this.entityId,
+            action: 7,
+            position: {},
+            result_position: {},
+            face: 0,
+        })
+    }
+
     responseForm(param, data) {
         this.write('modal_form_response', {
             form_id: param.form_id,

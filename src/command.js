@@ -19,9 +19,9 @@ parser
 parser
     .command("form <mode> [args...]")
     .addHelpText("after", "")
-    .addHelpText("after", "e.g.")
-    .addHelpText("after", "    form response <按钮id|文本...>\t响应表单")
-    .addHelpText("after", "    form exit [close|busy]\t\t关闭表单(默认为close)")
+    .addHelpText("after", "e.g.:")
+    .addHelpText("after", "  form response <按钮id|文本...>\t响应表单")
+    .addHelpText("after", "  form exit [close|busy]\t\t关闭表单(默认为close)")
     .description("操作表单")
     .action(async (mode, args) => {
         const form = bot.currentForm
@@ -64,6 +64,12 @@ parser
         else {
             console.error("不存在的mode")
         }
+    })
+
+parser
+    .command("respawn")
+    .action(async () => {
+        bot.respawn()
     })
 
 function parse(bot_, argv) {
