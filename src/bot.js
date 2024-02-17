@@ -41,7 +41,6 @@ class Bot extends bedrock.Client {
                 console.log(s.mc(`[raw] ${param.message}${s.clear}`))
             } else if (param.type === 'translation') {
                 // 将消息内容翻译
-                console.log(param)
                 console.log(s.mc(`[translation] ${translation(param.parameters, param.message)}`))
             } else if (param.type === 'whisper') {
                 console.log(s.mc(`[whisper] ${s.gray}${s.s.italic}${param.source_name} 悄悄对你说: ${param.message}${s.clear}`))
