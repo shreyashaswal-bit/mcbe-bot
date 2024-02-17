@@ -32,7 +32,7 @@ parser
             return
         }
 
-        if (mode === "response") {
+        if (mode === "response" || mode === "r") {
             bot.currentForm = null
             if (form_data.type === "form") {
                 pressedButton = Number(args[0])
@@ -50,7 +50,7 @@ parser
                 }
                 bot.responseForm(form, resultArray)
             }
-        } else if (mode === "exit") {
+        } else if (mode === "exit" || mode === "e") {
             bot.currentForm = null
             if (!args || (args || args[0] == "close")) {
                 bot.cancelForm(form, 1)
@@ -58,7 +58,7 @@ parser
             else if (args && args[0] == "busy") {
                 bot.cancelForm(form, 0)
             }
-        } else if (mode === "show") {
+        } else if (mode === "show" || mode === "s") {
             console.log(renderForm(form_data))
         }
         else {
