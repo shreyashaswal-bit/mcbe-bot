@@ -6,10 +6,14 @@ const { ping } = require("bedrock-protocol/src/createClient")
 const { sleep } = require("bedrock-protocol/src/datatypes/util")
 
 const config = require("./config")
+const { renderForm } = require("./form")
 const s = require("./consoleStyle")
 
 class Bot extends bedrock.Client {
     playerList = []
+    currentForm = null
+
+    autoCloseForm = true
 
     constructor(config) {
         super(config)
@@ -26,6 +30,7 @@ class Bot extends bedrock.Client {
                     return true
                 })
             }
+            this.emit('player_list_update', this.playerList)
         })
 
         this.on('text', (param) => {
@@ -39,10 +44,16 @@ class Bot extends bedrock.Client {
                 console.log(`[whisper]${s.gray}${s.s.italic} ${param.source_name} 悄悄对你说: ${param.message}${s.clear}`)
             }
         })
-    }
 
-    static create() {
-        return new Bot()
+        this.on('modal_form_request', (param) => {
+            if (this.currentForm && this.autoCloseForm) {
+                console.log(`[form] 表单未完成, 新的表单 ${param.data.title} (id:${param.form_id}) 已自动关闭`)
+                this.cancelForm(param, 1) // busy
+            } else {
+                this.currentForm = param
+                console.log(renderForm(param.data))
+            }
+        })
     }
 
     chat(message) {
@@ -69,14 +80,21 @@ class Bot extends bedrock.Client {
         })
     }
 
-
-
     responseForm(param, data) {
         this.write('modal_form_response', {
             form_id: param.form_id,
             has_response_data: true,
             data: JSON.stringify(data),
-            cancal: false,
+            has_cancel_reason: false,
+        })
+    }
+
+    cancelForm(param, reason) {
+        this.write('modal_form_response', {
+            form_id: param.form_id,
+            has_response_data: false,
+            has_cancel_reason: false,
+            cancel_reason: reason
         })
     }
 }
