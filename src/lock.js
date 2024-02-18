@@ -1,12 +1,14 @@
 class Lock {
-    callback = null
-    status = null
+    callback = null;
+    status = null;
     lock() {
-        this.status = new Promise((resolve) => { this.callback = resolve })
+        this.status = new Promise((resolve) => {
+            this.callback = resolve;
+        });
     }
     unlock() {
-        this.callback()
+        this.callback();
     }
 }
 
-module.exports = { Lock }
+module.exports = { Lock };

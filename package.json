@@ -1,16 +1,19 @@
 {
-  "name": "mcbe-bot",
-  "version": "1.0.0",
-  "description": "a bedrock server bot",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "XiYang6666",
-  "license": "MIT",
-  "dependencies": {
-    "bedrock-protocol": "^3.34.0",
-    "commander": "^12.0.0",
-    "properties-parser": "^0.6.0"
-  }
+    "name": "kfd-bot",
+    "version": "1.0.0",
+    "description": "a bedrock server bot",
+    "main": "index.js",
+    "scripts": {
+        "format": "prettier --write ."
+    },
+    "author": "XiYang6666",
+    "license": "MIT",
+    "dependencies": {
+        "bedrock-protocol": "^3.34.0",
+        "commander": "^12.0.0",
+        "properties-parser": "^0.6.0"
+    },
+    "devDependencies": {
+        "prettier": "^3.2.5"
+    }
 }
