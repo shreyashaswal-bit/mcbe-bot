@@ -19,12 +19,13 @@ parser
 
 parser
     .command("form <mode> [args...]")
+    .option("-o, --original")
     .addHelpText("after", "")
     .addHelpText("after", "e.g.:")
     .addHelpText("after", "  form response <按钮id|文本...>\t响应表单")
     .addHelpText("after", "  form exit [close|busy]\t\t关闭表单(默认为close)")
     .description("操作表单")
-    .action(async (mode, args) => {
+    .action(async (mode, args, options) => {
         const form = bot.currentForm;
 
         if (!form) {
@@ -34,21 +35,28 @@ parser
 
         if (mode === "response" || mode === "r") {
             bot.currentForm = null;
-            if (form.type === "form") {
-                pressedButton = Number(args[0]);
-                form.response(pressedButton);
-            } else if (form.type === "custom_form") {
-                let index = 0;
-                let resultArray = [];
-                for (let elem of form_data.content) {
-                    if (elem.type === "input") {
-                        resultArray.push(args[index]);
-                        index++;
-                    } else {
-                        resultArray.push(null);
+            if (options.original) {
+                form.response(JSON.parse(args.join(" ")));
+            } else {
+                if (form.type === "form") {
+                    pressedButton = Number(args[0]);
+                    form.response(pressedButton);
+                } else if (form.type === "custom_form") {
+                    let index = 0;
+                    let resultArray = [];
+                    for (let elem of form.content) {
+                        if (elem.type === "input") {
+                            resultArray.push(args[index]);
+                            index++;
+                        } else if (elem.type === "dropdown") {
+                            resultArray.push(Number(args[index]));
+                            index++;
+                        } else {
+                            resultArray.push(null);
+                        }
                     }
+                    form.response(resultArray);
                 }
-                form.response(resultArray);
             }
         } else if (mode === "exit" || mode === "e") {
             bot.currentForm = null;
@@ -57,10 +65,11 @@ parser
             } else if (args && args[0] == "busy") {
                 form.busy();
             }
+            console.log("[form] 表单已关闭");
         } else if (mode === "show" || mode === "s") {
             form.show();
         } else {
-            console.error("不存在的mode");
+            console.error("error: mode错误");
         }
     });
 
