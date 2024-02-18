@@ -90,6 +90,4 @@ function parse(bot_, argv) {
     catch { }
 }
 
-parse(null, ["action", "--help"])
-
 module.exports = { parse }
