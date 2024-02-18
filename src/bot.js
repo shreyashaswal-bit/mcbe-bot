@@ -36,20 +36,24 @@ class Bot extends bedrock.Client {
             this.emit("player_list_update", this.playerList);
         });
 
-        this.on('text', (param) => {
-            let time = new Date().toLocaleString().substring(10)
-            if (param.type === 'chat') {
-                if (param.source_name) console.log(time, s.mc(`[chat] <${param.source_name}> ${param.message}${s.clear}`))
-                else console.log(time, s.mc(`[chat] ${param.message}${s.clear}`))
-            } else if (param.type === 'raw') {
-                console.log(time, s.mc(`[raw] ${param.message}${s.clear}`))
-            } else if (param.type === 'translation') {
+        this.on("text", (param) => {
+            let time = new Date().toLocaleString().substring(10);
+            if (param.type === "chat") {
+                if (param.source_name)
+                    console.log(time, s.mc(`[chat] <${param.source_name}> ${param.message}${s.clear}`));
+                else console.log(time, s.mc(`[chat] ${param.message}${s.clear}`));
+            } else if (param.type === "raw") {
+                console.log(time, s.mc(`[raw] ${param.message}${s.clear}`));
+            } else if (param.type === "translation") {
                 // 将消息内容翻译
-                console.log(time, s.mc(`[translation] ${translation(param.parameters, param.message)}`))
-            } else if (param.type === 'whisper') {
-                console.log(time, s.mc(`[whisper] ${s.s.italic}${param.source_name} 悄悄对你说: ${param.message}${s.clear}`))
+                console.log(time, s.mc(`[translation] ${translation(param.parameters, param.message)}`));
+            } else if (param.type === "whisper") {
+                console.log(
+                    time,
+                    s.mc(`[whisper] ${s.s.italic}${param.source_name} 悄悄对你说: ${param.message}${s.clear}`),
+                );
             }
-        })
+        });
 
         this.on("modal_form_request", (param) => {
             if (this.currentForm && this.autoCloseForm) {
