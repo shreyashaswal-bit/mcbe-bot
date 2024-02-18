@@ -1,7 +1,7 @@
-const readline = require('readline');
-const { EventEmitter } = require("events")
+const readline = require("readline");
+const { EventEmitter } = require("events");
 
-const { Lock } = require("./lock")
+const { Lock } = require("./lock");
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -10,18 +10,18 @@ const rl = readline.createInterface({
 
 class Console extends EventEmitter {
     async start() {
-        const lock = new Lock()
+        const lock = new Lock();
         while (true) {
-            lock.lock()
-            rl.question('', (input) => {
-                this.emit("input", input)
-                lock.unlock()
-            })
-            await lock.status
+            lock.lock();
+            rl.question("", (input) => {
+                this.emit("input", input);
+                lock.unlock();
+            });
+            await lock.status;
         }
     }
 }
 
-const inputConsole = new Console()
+const inputConsole = new Console();
 
-module.exports = { Console, inputConsole }
+module.exports = { Console, inputConsole };

@@ -40,11 +40,11 @@ module.exports = {
     cyan: "\x1b[36m",
     white: "\x1b[37m",
     mc: (data) => {
-        let tempStr = ''
-        if (data instanceof Array) tempStr = data[0]
-        else if (typeof (data) === "string") tempStr = data
+        let tempStr = "";
+        if (data instanceof Array) tempStr = data[0];
+        else if (typeof data === "string") tempStr = data;
         else {
-            return
+            return;
         }
         let result = tempStr.replaceAll(/§[abcdefklor0-9]/g, (str) => {
             return {
@@ -68,8 +68,8 @@ module.exports = {
                 "§l": "\x1b[1m",
                 "§o": "\x1b[3m",
                 "§r": "\x1b[0m",
-            }[str]
-        })
-        return result + "\x1b[0m"
-    }
-}
+            }[str];
+        });
+        return result + "\x1b[0m";
+    },
+};
