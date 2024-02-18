@@ -1,0 +1,46 @@
+name: Prettier Auto-format
+
+on:
+    pull_request:
+    push:
+        branches:
+            - main
+    workflow_dispatch:
+
+jobs:
+    prettier:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: "18"
+
+            - name: Install dependencies
+              run: npm install -g prettier
+
+            - name: change core.autocrlf to input
+              run: git config --global core.autocrlf input
+
+            - name: Run Prettier
+              run: prettier --write .
+
+            - name: Check for changes
+              id: git-diff
+              run: |
+                  git diff --quiet || echo "changed=true" >> $GITHUB_OUTPUT
+
+            - name: IsChange
+              run: |
+                  echo ${{ steps.git-diff.outputs.changed }}
+
+            - name: Commit and push changes
+              if: steps.git-diff.outputs.changed == 'true'
+              run: |
+                  git add .
+                  git commit -m "style: format via prettier"
+                  git push
