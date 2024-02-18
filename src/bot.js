@@ -7,8 +7,10 @@ const { sleep } = require("bedrock-protocol/src/datatypes/util");
 
 const s = require("./consoleStyle");
 const { renderForm } = require("./form");
-const { translation } = require("./translation");
+const { translation } = require("./text");
 const { Vec3, BlockPosition } = require("./data");
+const { processMessage } = require("./text");
+const { renderJsonMessage } = require("./text");
 
 class Bot extends bedrock.Client {
     playerList = [];
@@ -52,6 +54,8 @@ class Bot extends bedrock.Client {
                     time,
                     s.mc(`[whisper] ${s.s.italic}${param.source_name} 悄悄对你说: ${param.message}${s.clear}`),
                 );
+            } else if (param.type === "json") {
+                console.log(s.mc(`[json] ${renderJsonMessage(param)}`));
             }
         });
 
