@@ -12,20 +12,25 @@ class Form {
     }
 
     render() {
-        let result = "";
+        let result = `${s.blue}===== ${s.clear}${s.s.blob}${this.title}${s.clear} ${s.blue}=====${s.clear}\n\n`;
         if (this.type == "form") {
-            result = `${s.s.blob}===== ${this.title} =====${s.clear}\n` + `${this.content}\n` + `\n`;
+            result += `${this.content}\n\n`;
             this.buttons.forEach((value, index) => {
-                result += `  ${index}. ${value.text}\n`;
+                result += `  ${s.yellow}${index}. ${s.gray}${value.text}${s.clear}\n`;
             });
             result += "\n";
         } else if (this.type === "custom_form") {
-            result = `${s.s.blob}===== ${this.title} =====${s.clear}\n` + `\n`;
             this.content.forEach((value) => {
                 if (value.type === "label") {
                     result += `${value.text}\n`;
                 } else if (value.type === "input") {
-                    result += `[ ${s.gray}${value.text}${s.clear} ]\n`;
+                    result += `${s.blue}[${s.clear} ${value.text} ${s.blue}]${s.clear}\n`;
+                } else if (value.type === "dropdown") {
+                    result += `${s.blue}[ ${s.green}> ${s.clear}${value.text} ${s.blue}]${s.clear}\n`;
+                    value.options.forEach((value, index) => {
+                        result += `  ${s.green}- ${s.yellow}${index}. ${s.gray}${value}${s.clear}\n`;
+                    });
+                    result += "\n";
                 }
             });
             result += "\n";
