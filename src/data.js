@@ -12,9 +12,9 @@ class Vec3 {
 class BlockPosition extends Vec3 {
     constructor(x = 0, y = 0, z = 0) {
         super(x, y, z);
-        this.x = parseInt(Number(this.x));
-        this.y = parseInt(Number(this.y));
-        this.z = parseInt(Number(this.z));
+        this.x = Math.floor(this.x);
+        this.y = Math.floor(this.y);
+        this.z = Math.floor(this.z);
     }
 }
 

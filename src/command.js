@@ -26,7 +26,6 @@ parser
     .description("操作表单")
     .action(async (mode, args) => {
         const form = bot.currentForm;
-        const form_data = form && JSON.parse(form.data);
 
         if (!form) {
             console.log("[form] 当前没有表单");
@@ -35,10 +34,10 @@ parser
 
         if (mode === "response" || mode === "r") {
             bot.currentForm = null;
-            if (form_data.type === "form") {
+            if (form.type === "form") {
                 pressedButton = Number(args[0]);
-                bot.responseForm(form, pressedButton);
-            } else if (form_data.type === "custom_form") {
+                form.response(pressedButton);
+            } else if (form.type === "custom_form") {
                 let index = 0;
                 let resultArray = [];
                 for (let elem of form_data.content) {
@@ -49,17 +48,17 @@ parser
                         resultArray.push(null);
                     }
                 }
-                bot.responseForm(form, resultArray);
+                form.response(resultArray);
             }
         } else if (mode === "exit" || mode === "e") {
             bot.currentForm = null;
-            if (!args || args || args[0] == "close") {
-                bot.cancelForm(form, 1);
+            if (!args || args[0] == "close") {
+                form.close();
             } else if (args && args[0] == "busy") {
-                bot.cancelForm(form, 0);
+                form.busy();
             }
         } else if (mode === "show" || mode === "s") {
-            console.log(renderForm(form_data));
+            form.show();
         } else {
             console.error("不存在的mode");
         }

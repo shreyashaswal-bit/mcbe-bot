@@ -6,7 +6,7 @@ const { ping } = require("bedrock-protocol/src/createClient");
 const { sleep } = require("bedrock-protocol/src/datatypes/util");
 
 const s = require("./consoleStyle");
-const { renderForm } = require("./form");
+const { renderForm, Form } = require("./form");
 const { translation } = require("./text");
 const { Vec3, BlockPosition } = require("./data");
 const { processMessage } = require("./text");
@@ -16,6 +16,7 @@ class Bot extends bedrock.Client {
     playerList = [];
     currentForm = null;
 
+    showForm = true;
     autoCloseForm = true;
     autoRespawn = true;
 
@@ -60,12 +61,14 @@ class Bot extends bedrock.Client {
         });
 
         this.on("modal_form_request", (param) => {
+            const form = new Form(this, param);
             if (this.currentForm && this.autoCloseForm) {
-                console.log(s.mc(`[form] 表单未完成, 新的表单 ${param.data.title} (id:${param.form_id}) 已自动关闭`));
-                this.cancelForm(param, 1); // busy
+                console.log(s.mc(`[form] 表单未完成, 新的表单 ${form.title} (id:${form.id}) 已自动关闭`));
+                form.busy();
             } else {
-                this.currentForm = param;
-                console.log(renderForm(param.data));
+                this.currentForm = form;
+                if (this.showForm) form.show();
+                this.emit("form", this.currentForm);
             }
         });
 
@@ -123,18 +126,18 @@ class Bot extends bedrock.Client {
         }
     }
 
-    responseForm(param, data) {
+    responseForm(form_id, data) {
         this.write("modal_form_response", {
-            form_id: param.form_id,
+            form_id: form_id,
             has_response_data: true,
             data: JSON.stringify(data),
             has_cancel_reason: false,
         });
     }
 
-    cancelForm(param, reason) {
+    cancelForm(form_id, reason) {
         this.write("modal_form_response", {
-            form_id: param.form_id,
+            form_id: form_id,
             has_response_data: false,
             has_cancel_reason: true,
             cancel_reason: reason,
