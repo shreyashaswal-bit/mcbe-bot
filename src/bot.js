@@ -5,16 +5,17 @@ const auth = require("bedrock-protocol/src/client/auth")
 const { ping } = require("bedrock-protocol/src/createClient")
 const { sleep } = require("bedrock-protocol/src/datatypes/util")
 
-const config = require("./config")
-const { renderForm } = require("./form")
 const s = require("./consoleStyle")
+const { renderForm } = require("./form")
 const { translation } = require('./translation')
+const { Vec3, BlockPosition } = require("./data")
 
 class Bot extends bedrock.Client {
     playerList = []
     currentForm = null
 
     autoCloseForm = true
+    autoRespawn = true
 
     constructor(config) {
         super(config)
@@ -56,6 +57,10 @@ class Bot extends bedrock.Client {
                 console.log(renderForm(param.data))
             }
         })
+
+        this.on('respawn', (param) => {
+            if (this.autoRespawn) this.respawn(param)
+        })
     }
 
     chat(message) {
@@ -82,6 +87,32 @@ class Bot extends bedrock.Client {
         })
     }
 
+    action(id, position, result_position, face) {
+        this.queue("player_action", {
+            runtime_entity_id: this.entityId,
+            action: id,
+            position,
+            result_position,
+            face,
+        })
+    }
+
+    respawn(data) {
+        switch (data.state) {
+            case 0:
+                this.queue("respawn", {
+                    runtime_entity_id: this.entityId,
+                    state: 2,
+                    position: new Vec3()
+
+                })
+                break
+            case 1:
+                this.action(7, new BlockPosition(), new BlockPosition(), -1)
+                break
+        }
+    }
+
     responseForm(param, data) {
         this.write('modal_form_response', {
             form_id: param.form_id,
@@ -95,7 +126,7 @@ class Bot extends bedrock.Client {
         this.write('modal_form_response', {
             form_id: param.form_id,
             has_response_data: false,
-            has_cancel_reason: false,
+            has_cancel_reason: true,
             cancel_reason: reason
         })
     }

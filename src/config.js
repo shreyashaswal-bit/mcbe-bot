@@ -9,8 +9,8 @@ module.exports = {
         "offline": false,
         "profilesFolder": "./authdata"
     },
-    get translation(){
+    get translation() {
         // 使用 getter 缓存以防止文件的重复读取
-        return fs.readFileSync(path.join(__dirname,'../assets/zh_CN.lang'),'utf-8')
+        return fs.readFileSync(path.join(__dirname, '../assets/zh_CN.lang'), 'utf-8')
     }
 }

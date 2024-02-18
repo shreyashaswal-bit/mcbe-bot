@@ -1,5 +1,5 @@
 {
-  "name": "kfd-bot",
+  "name": "mcbe-bot",
   "version": "1.0.0",
   "description": "a bedrock server bot",
   "main": "index.js",
