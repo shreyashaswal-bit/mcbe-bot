@@ -59,16 +59,7 @@ class Bot extends bedrock.Client {
         })
 
         this.on('respawn', (param) => {
-            console.log(param)
             if (this.autoRespawn) this.respawn(param)
-        })
-
-        this.on("move_player", (param) => {
-            if (param.runtime_id == this.entityId) {
-                console.log("selfid:", this.entityId)
-                console.log("move_player:")
-                console.log(param)
-            }
         })
     }
 
