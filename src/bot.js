@@ -5,10 +5,10 @@ const auth = require("bedrock-protocol/src/client/auth")
 const { ping } = require("bedrock-protocol/src/createClient")
 const { sleep } = require("bedrock-protocol/src/datatypes/util")
 
-const config = require("./config")
-const { renderForm } = require("./form")
 const s = require("./consoleStyle")
+const { renderForm } = require("./form")
 const { translation } = require('./translation')
+const { Vec3, BlockPosition } = require("./data")
 
 class Bot extends bedrock.Client {
     playerList = []
@@ -58,13 +58,19 @@ class Bot extends bedrock.Client {
             }
         })
 
-        this.on('death_info', (param) => {
+        this.on('respawn', (param) => {
             console.log(param)
-            if (this.autoRespawn) this.respawn()
+            if (this.autoRespawn) this.respawn(param)
+        })
+
+        this.on("move_player", (param) => {
+            if (param.runtime_id == this.entityId) {
+                console.log("selfid:", this.entityId)
+                console.log("move_player:")
+                console.log(param)
+            }
         })
     }
-
-
 
     chat(message) {
         this.queue('text', {
@@ -100,14 +106,20 @@ class Bot extends bedrock.Client {
         })
     }
 
-    respawn() {
-        this.queue("player_action", {
-            runtime_entity_id: this.entityId,
-            action: 7,
-            position: { x: 0, y: 0, z: 0 },
-            result_position: { x: 0, y: 0, z: 0 },
-            face: 0,
-        })
+    respawn(data) {
+        switch (data.state) {
+            case 0:
+                this.queue("respawn", {
+                    runtime_entity_id: this.entityId,
+                    state: 2,
+                    position: new Vec3()
+
+                })
+                break
+            case 1:
+                this.action(7, new BlockPosition(), new BlockPosition(), -1)
+                break
+        }
     }
 
     responseForm(param, data) {
