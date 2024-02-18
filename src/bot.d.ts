@@ -1,10 +1,11 @@
 import { Client } from "bedrock-protocol";
 import { Player } from "./data";
 import { BlockPosition } from "./data";
+import { Form } from "./form";
 
 export declare class Bot extends Client {
     playerList: Player[];
-    currentForm: object | null;
+    currentForm: Form | null;
 
     autoCloseForm: boolean;
     autoRespawn: boolean;
