@@ -2,7 +2,7 @@ import { Command } from "commander";
 import { Bot } from "../src/bot";
 import { Console } from "../src/console";
 import { Form } from "../src/mc/form";
-import { Player } from "bedrock-protocol";
+import { Player } from "./player";
 
 export declare type Context = {
     bot: Bot;
