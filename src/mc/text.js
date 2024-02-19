@@ -93,5 +93,3 @@ function renderJsonMessage(data) {
 }
 
 module.exports = { translate, formatMessage, translation, renderBaseText, renderBaseText, renderJsonMessage };
-
-console.log(translation(["XiYang6666"], "§e%multiplayer.player.changeToSkin§r"));
