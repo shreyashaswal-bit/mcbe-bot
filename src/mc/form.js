@@ -4,11 +4,11 @@ class Form {
     constructor(bot, { form_id, data }) {
         this.bot = bot;
         this.id = form_id;
-        let data = JSON.parse(data);
-        this.type = data.type;
-        this.title = data.title;
-        this.content = data.content;
-        this.buttons = data.buttons;
+        let formData = JSON.parse(data);
+        this.type = formData.type;
+        this.title = formData.title;
+        this.content = formData.content;
+        this.buttons = formData.buttons;
     }
 
     render() {

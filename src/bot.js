@@ -11,9 +11,10 @@ const { translation } = require("./mc/text");
 const { Vec3, BlockPosition } = require("./util/data");
 const { processMessage } = require("./mc/text");
 const { renderJsonMessage } = require("./mc/text");
+const { Player } = require("./mc/player");
 
 class Bot extends bedrock.Client {
-    playerList = [];
+    players = {};
     currentForm = null;
 
     constructor(config, { shuo_form = true, auto_close_form = true, auto_respawn = true }) {
@@ -24,18 +25,19 @@ class Bot extends bedrock.Client {
 
         this.on("player_list", (param) => {
             if (param.records.type == "add") {
-                param.records.records.forEach((value) => {
-                    for (let player of this.playerList) if (player.uuid == value.uuid) return;
-                    this.playerList.push(value);
+                param.records.records.forEach((player_data) => {
+                    if (this.players[player_data.uuid]) return;
+                    const player = new Player(this, player_data);
+                    this.players[player_data.uuid] = player;
+                    this.emit("player_join", player);
                 });
             } else if (param.records.type == "remove") {
-                this.playerList = this.playerList.filter((value) => {
-                    for (let removedPlayer of param.records.records)
-                        if (removedPlayer.uuid === value.uuid) return false;
-                    return true;
+                param.records.records.forEach((player_data) => {
+                    this.emit("player_leave", this.players[player_data.uuid]);
+                    delete players[this.player_data.uuid];
                 });
             }
-            this.emit("player_list_update", this.playerList);
+            this.emit("player_list_update", this.players);
         });
 
         this.on("text", (param) => {

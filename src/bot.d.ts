@@ -4,14 +4,16 @@ import { BlockPosition } from "./util/data";
 import { Form } from "./mc/form";
 
 export declare class Bot extends Client {
-    playerList: Player[];
+    players: { [uuid: string]: Player };
     currentForm: Form | null;
 
     showForm: boolean;
     autoCloseForm: boolean;
     autoRespawn: boolean;
 
-    on(event_name: "player_list_update", callback: (player_list: Player[]) => void): this;
+    on(event_name: "player_join", callback: (player: Player) => void): this;
+    on(event_name: "player_leave", callback: (player: Player) => void): this;
+    on(event_name: "player_list_update", callback: (player_list: { [uuid: string]: Player }) => void): this;
     on(event_name: "message", callback: (message: string) => void): this;
     on(event_name: "form", callback: (form: Form) => void): this;
 

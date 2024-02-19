@@ -3,3 +3,5 @@
 /.vscode
 /config/config.dev.js
 /type/**/*.js
+/plugins/*.dev.js
+/plugins/*.dev.ts
