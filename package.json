@@ -4,7 +4,9 @@
     "description": "a bedrock server bot",
     "main": "index.js",
     "scripts": {
-        "format": "prettier --write ."
+        "format": "prettier --write .",
+        "build-plugin": "pnpm exec tsc",
+        "start": "pnmp start"
     },
     "author": "XiYang6666",
     "license": "MIT",

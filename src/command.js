@@ -95,4 +95,4 @@ function parse(bot_, argv) {
     } catch {}
 }
 
-module.exports = { parse };
+module.exports = { parser, parse };

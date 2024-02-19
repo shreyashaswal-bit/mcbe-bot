@@ -11,9 +11,9 @@ export declare class Bot extends Client {
     autoCloseForm: boolean;
     autoRespawn: boolean;
 
-    on(event_name: "player_list_update", callback: (player_list: Player[]) => void);
-    on(event_name: "message", callback: (message: string) => void);
-    on(event_name: "form", callback: (form: Form) => void);
+    on(event_name: "player_list_update", callback: (player_list: Player[]) => void): this;
+    on(event_name: "message", callback: (message: string) => void): this;
+    on(event_name: "form", callback: (form: Form) => void): this;
 
     chat(message: string): void;
     command(command: string): void;

@@ -1,6 +1,8 @@
 const { createBot } = require("./bot");
-const { parse } = require("./command");
+const { parse, parser } = require("./command");
 const { inputConsole } = require("./console");
+const { loadPluginDir, startAllPlugin } = require("./loader/pluginLoader");
+const { ContextImpl } = require("./loader/context");
 const config = require("./config");
 
 const bot = createBot(config.client, config.bot);
@@ -15,3 +17,7 @@ inputConsole.on("input", (input) => {
         bot.chat(input);
     }
 });
+
+const context = new ContextImpl({ bot, console: inputConsole, parser });
+loadPluginDir("./plugins");
+startAllPlugin(context);
