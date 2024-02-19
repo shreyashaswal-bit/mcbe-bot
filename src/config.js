@@ -22,7 +22,7 @@ let config = {
 const configEnv = process.env.BOT_ENV;
 
 if (configEnv) {
-    let { client, bot, mc } = require(`./config/config.${configEnv}.js`);
+    let { client, bot, mc } = require(`../config/config.${configEnv}`);
     client = Object.assign(config.client, client);
     bot = Object.assign(config.bot, bot);
     mc = Object.assign(config.mc, mc);
