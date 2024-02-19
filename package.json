@@ -16,6 +16,7 @@
         "properties-parser": "^0.6.0"
     },
     "devDependencies": {
-        "prettier": "^3.2.5"
+        "prettier": "^3.2.5",
+        "typescript": "^5.3.3"
     }
 }

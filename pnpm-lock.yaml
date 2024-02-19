@@ -19,6 +19,9 @@ devDependencies:
   prettier:
     specifier: ^3.2.5
     version: 3.2.5
+  typescript:
+    specifier: ^5.3.3
+    version: 5.3.3
 
 packages:
 
@@ -886,6 +889,12 @@ packages:
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
+
+  /typescript@5.3.3:
+    resolution: {integrity: sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: true
 
   /universalify@0.1.2:
     resolution: {integrity: sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==}
