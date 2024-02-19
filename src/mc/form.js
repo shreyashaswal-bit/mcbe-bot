@@ -1,4 +1,4 @@
-const s = require("./consoleStyle");
+const s = require("../util/consoleStyle");
 
 class Form {
     constructor(bot, param) {

@@ -1,8 +1,12 @@
-const properties = require("properties-parser");
-const config = require("./config");
+const fs = require("fs");
+const path = require("path");
 
+const properties = require("properties-parser");
+const config = require("../config");
+
+const translateFile = fs.readFileSync(path.join("./assets", `${config.mc.lang}.lang`));
 // 翻译索引
-const parse = properties.parse(config.translation);
+const parse = properties.parse(translateFile);
 
 /**
  * 翻译

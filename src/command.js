@@ -1,6 +1,6 @@
 const { Command } = require("commander");
-const { renderForm } = require("./form");
-const { Vec3, BlockPosition } = require("./data");
+const { renderForm } = require("./mc/form");
+const { Vec3, BlockPosition } = require("./util/data");
 
 const parser = new Command();
 let bot = null;
@@ -85,7 +85,7 @@ parser
         let position = new BlockPosition(...rmQuot(position_str).split(","));
         let resultPosition = new BlockPosition(...rmQuot(result_position_str).split(","));
         let face = Number(face_str);
-        bot.action(id, position, resultPosition, face);
+        bot.action(id, { position: position, result_position: resultPosition, face: face });
     });
 
 function parse(bot_, argv) {

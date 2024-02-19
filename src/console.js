@@ -1,7 +1,7 @@
 const readline = require("readline");
 const { EventEmitter } = require("events");
 
-const { Lock } = require("./lock");
+const { Lock } = require("./util/lock");
 
 const rl = readline.createInterface({
     input: process.stdin,

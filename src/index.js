@@ -3,7 +3,7 @@ const { parse } = require("./command");
 const { inputConsole } = require("./console");
 const config = require("./config");
 
-const bot = createBot(config.client);
+const bot = createBot(config.client, config.bot);
 inputConsole.start();
 inputConsole.on("input", (input) => {
     if (input.startsWith(".")) {

@@ -1,9 +1,3 @@
-export declare class Vec3 {
-    constructor(x: number | string, y: number | string, z: number | string);
-}
-
-export declare class BlockPosition extends Vec3 {}
-
 export declare type Player = {
     uuid: string;
     entity_unique_id: bigint;
