@@ -34,7 +34,7 @@ class Bot extends bedrock.Client {
             } else if (param.records.type == "remove") {
                 param.records.records.forEach((player_data) => {
                     this.emit("player_leave", this.players[player_data.uuid]);
-                    delete players[this.player_data.uuid];
+                    delete this.players[player_data.uuid];
                 });
             }
             this.emit("player_list_update", this.players);
