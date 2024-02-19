@@ -14,7 +14,7 @@ const parse = properties.parse(translateFile);
  * @returns {string}
  */
 function translate(message) {
-    return message.replace(/(?:^|%)([a-zA-Z0-9_.]+)$/g, (str, param) =>
+    return message.replace(/(?:^|%)([a-zA-Z0-9_.]+)/g, (str, param) =>
         parse[param] ? parse[param].replace(/\s*#.*/g, "") : param,
     );
 }
@@ -93,3 +93,5 @@ function renderJsonMessage(data) {
 }
 
 module.exports = { translate, formatMessage, translation, renderBaseText, renderBaseText, renderJsonMessage };
+
+console.log(translation(["XiYang6666"], "§e%multiplayer.player.changeToSkin§r"));
