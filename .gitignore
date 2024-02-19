@@ -2,3 +2,4 @@
 /authdata
 /.vscode
 /config/config.dev.js
+/type/**/*.js
