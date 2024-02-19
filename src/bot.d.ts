@@ -16,6 +16,7 @@ export declare class Bot extends Client {
     on(event_name: "player_list_update", callback: (player_list: { [uuid: string]: Player }) => void): this;
     on(event_name: "message", callback: (message: string) => void): this;
     on(event_name: "form", callback: (form: Form) => void): this;
+    on(event_name: string, callback: (param: any) => void): this;
 
     chat(message: string): void;
     command(command: string): void;

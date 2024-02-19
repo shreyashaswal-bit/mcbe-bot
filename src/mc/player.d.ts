@@ -4,9 +4,9 @@ type SkinData = {
     skin_id: string;
     play_fab_id: string;
     skin_resource_pack: string;
-    skin_data: object;
+    skin_data: { width: number; height: number; data: Buffer };
     animations: any[];
-    cape_data: object;
+    cape_data: { width: number; height: number; data: Buffer };
     geometry_data: string;
     geometry_data_version: string;
     animation_data: string;
