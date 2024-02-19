@@ -1,23 +1,25 @@
 import { Client } from "bedrock-protocol";
-import { Player } from "./data";
-import { BlockPosition } from "./data";
-import { Form } from "./form";
+import { Player } from "../type/player";
+import { BlockPosition } from "./util/data";
+import { Form } from "./mc/form";
 
 export declare class Bot extends Client {
     playerList: Player[];
     currentForm: Form | null;
 
+    showForm: boolean;
     autoCloseForm: boolean;
     autoRespawn: boolean;
 
     on(event_name: "player_list_update", callback: (player_list: Player[]) => void);
+    on(event_name: "message", callback: (message: string) => void);
+    on(event_name: "form", callback: (form: Form) => void);
 
     chat(message: string): void;
     command(command: string): void;
-    action(id: number, position: BlockPosition, result_position: BlockPosition, face: number): void;
-    respawn(data: object): void;
-    responseForm(param: object, data: object): void;
-    cancelForm(param: object, reason: number): void;
+    action(id: number, data: { position: BlockPosition; result_position: BlockPosition; face: number }): void;
+    responseForm(form_id: number, data: object): void;
+    cancelForm(form_id: number, reason: number): void;
 }
 
 export declare function createBot(options: object): Bot;

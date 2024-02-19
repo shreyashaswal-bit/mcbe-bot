@@ -1,3 +1,4 @@
 /node_modules/
 /authdata
 /.vscode
+/config/config.dev.js

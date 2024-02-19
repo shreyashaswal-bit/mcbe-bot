@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-module.exports = {
+let config = {
     client: {
         host: "mc.kanfeidie.com",
         port: 19132,
@@ -9,8 +9,24 @@ module.exports = {
         offline: false,
         profilesFolder: "./authdata",
     },
-    get translation() {
-        // 使用 getter 缓存以防止文件的重复读取
-        return fs.readFileSync(path.join(__dirname, "../assets/zh_CN.lang"), "utf-8");
+    bot: {
+        shuo_form: true,
+        auto_close_form: true,
+        auto_respawn: true,
+    },
+    mc: {
+        lang: "zh_CN",
     },
 };
+
+const configEnv = process.env.BOT_ENV;
+
+if (configEnv) {
+    let { client, bot, mc } = require(`./config/config.${configEnv}.js`);
+    client = Object.assign(config.client, client);
+    bot = Object.assign(config.bot, bot);
+    mc = Object.assign(config.mc, mc);
+    config = { client, bot, mc };
+}
+
+module.exports = config;

@@ -5,23 +5,22 @@ const auth = require("bedrock-protocol/src/client/auth");
 const { ping } = require("bedrock-protocol/src/createClient");
 const { sleep } = require("bedrock-protocol/src/datatypes/util");
 
-const s = require("./consoleStyle");
-const { renderForm, Form } = require("./form");
-const { translation } = require("./text");
-const { Vec3, BlockPosition } = require("./data");
-const { processMessage } = require("./text");
-const { renderJsonMessage } = require("./text");
+const s = require("./util/consoleStyle");
+const { renderForm, Form } = require("./mc/form");
+const { translation } = require("./mc/text");
+const { Vec3, BlockPosition } = require("./util/data");
+const { processMessage } = require("./mc/text");
+const { renderJsonMessage } = require("./mc/text");
 
 class Bot extends bedrock.Client {
     playerList = [];
     currentForm = null;
 
-    showForm = true;
-    autoCloseForm = true;
-    autoRespawn = true;
-
-    constructor(config) {
+    constructor(config, { shuo_form = true, auto_close_form = true, auto_respawn = true }) {
         super(config);
+        this.showForm = shuo_form;
+        this.autoCloseForm = auto_close_form;
+        this.auto_respawn = auto_respawn;
 
         this.on("player_list", (param) => {
             if (param.records.type == "add") {
@@ -40,24 +39,25 @@ class Bot extends bedrock.Client {
         });
 
         this.on("text", (param) => {
-            let time = new Date().toLocaleString().substring(10);
+            let time = new Date().toLocaleTimeString();
+            let message = "";
             if (param.type === "chat") {
-                if (param.source_name)
-                    console.log(time, s.mc(`[chat] <${param.source_name}> ${param.message}${s.clear}`));
-                else console.log(time, s.mc(`[chat] ${param.message}${s.clear}`));
+                message = param.source_name
+                    ? `[chat] <${param.source_name}> ${param.message}`
+                    : `[chat] ${param.message}`;
             } else if (param.type === "raw") {
-                console.log(time, s.mc(`[raw] ${param.message}${s.clear}`));
+                message = `[raw] ${param.message}`;
             } else if (param.type === "translation") {
-                // 将消息内容翻译
-                console.log(time, s.mc(`[translation] ${translation(param.parameters, param.message)}`));
+                message = `[translation] ${translation(param.parameters, param.message)}`;
             } else if (param.type === "whisper") {
-                console.log(
-                    time,
-                    s.mc(`[whisper] ${s.s.italic}${param.source_name} 悄悄对你说: ${param.message}${s.clear}`),
-                );
+                message = `[whisper] §o${param.source_name} 悄悄对你说: ${param.message}§r`;
             } else if (param.type === "json") {
-                console.log(s.mc(`[json] ${renderJsonMessage(param)}`));
+                message = `[json] ${renderJsonMessage(param)}`;
+            } else {
+                return;
             }
+            console.log(time, s.mc(message));
+            this.emit("message", message);
         });
 
         this.on("modal_form_request", (param) => {
@@ -101,7 +101,7 @@ class Bot extends bedrock.Client {
         });
     }
 
-    action(id, position, result_position, face) {
+    action(id, { position = new BlockPosition(), result_position = new BlockPosition(), face = 0 }) {
         this.queue("player_action", {
             runtime_entity_id: this.entityId,
             action: id,
@@ -121,7 +121,7 @@ class Bot extends bedrock.Client {
                 });
                 break;
             case 1:
-                this.action(7, new BlockPosition(), new BlockPosition(), -1);
+                this.action(7);
                 break;
         }
     }
@@ -145,20 +145,23 @@ class Bot extends bedrock.Client {
     }
 }
 
-function createBot(options) {
-    assert(options);
-    const bot = new Bot({ port: 19132, followPort: !options.realms, ...options, delayedInit: true });
+function createBot(client_config, bot_config) {
+    assert(client_config);
+    const bot = new Bot(
+        { port: 19132, followPort: !client_config.realms, ...client_config, delayedInit: true },
+        bot_config,
+    );
 
     function onServerInfo() {
         bot.on("connect_allowed", () => connect(bot));
-        if (options.skipPing) {
+        if (client_config.skipPing) {
             bot.init();
         } else {
             ping(bot.options)
                 .then((ad) => {
                     const adVersion = ad.version?.split(".").slice(0, 3).join("."); // Only 3 version units
                     bot.options.version =
-                        options.version ?? (Options.Versions[adVersion] ? adVersion : Options.CURRENT_VERSION);
+                        client_config.version ?? (Options.Versions[adVersion] ? adVersion : Options.CURRENT_VERSION);
 
                     if (ad.portV4 && bot.options.followPort) {
                         bot.options.port = ad.portV4;
@@ -173,7 +176,7 @@ function createBot(options) {
         }
     }
 
-    if (options.realms) {
+    if (client_config.realms) {
         auth.realmAuthenticate(bot.options)
             .then(onServerInfo)
             .catch((e) => bot.emit("error", e));
