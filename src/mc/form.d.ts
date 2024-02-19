@@ -17,7 +17,7 @@ export declare class Form {
     title: string;
     content: FormContent | string;
     buttons: FormButton[];
-    constructor(bot: Bot, param: object);
+    constructor(bot: Bot, param: { form_id: number; data: string });
     render(): string;
     show(): void;
     response(data: number | any[]): void;

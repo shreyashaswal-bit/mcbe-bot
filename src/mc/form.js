@@ -1,10 +1,10 @@
 const s = require("../util/consoleStyle");
 
 class Form {
-    constructor(bot, param) {
+    constructor(bot, { form_id, data }) {
         this.bot = bot;
-        this.id = param.form_id;
-        let data = JSON.parse(param.data);
+        this.id = form_id;
+        let data = JSON.parse(data);
         this.type = data.type;
         this.title = data.title;
         this.content = data.content;
