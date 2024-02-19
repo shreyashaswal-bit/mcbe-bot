@@ -6,7 +6,7 @@
     "scripts": {
         "format": "prettier --write .",
         "build-plugin": "pnpm exec tsc",
-        "start": "pnmp start"
+        "start": "pnpm build-plugin && node ."
     },
     "author": "XiYang6666",
     "license": "MIT",
