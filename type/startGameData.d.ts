@@ -58,7 +58,7 @@ export declare type StartGameData = {
     world_name: string; //"Bedrock level";
     premium_world_template_id: string; //"00000000-0000-0000-0000-000000000000";
     is_trial: boolean;
-    movement_authority: string; //"server";
+    movement_authority: "server" | string;
     rewind_history_size: number;
     server_authoritative_block_breaking: boolean;
     current_tick: bigint;
