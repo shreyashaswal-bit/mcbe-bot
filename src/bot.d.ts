@@ -1,5 +1,7 @@
 import { Client } from "bedrock-protocol";
+
 import { Player } from "../type/player";
+import { StartGameData } from "../type/startGameData";
 import { BlockPosition } from "./util/data";
 import { Form } from "./mc/form";
 
@@ -23,6 +25,17 @@ export declare class Bot extends Client {
     action(id: number, data: { position: BlockPosition; result_position: BlockPosition; face: number }): void;
     responseForm(form_id: number, data: object): void;
     cancelForm(form_id: number, reason: number): void;
+
+    // Client
+
+    startGameData: StartGameData;
+    tick: bigint;
+    profile: {
+        name: string;
+        uuid: string;
+        xuid: string;
+    };
+    username: string;
 }
 
 export declare function createBot(options: object): Bot;

@@ -17,7 +17,7 @@ class Player {
         this.uuid = uuid;
         this.entity_id = entity_unique_id;
         this.username = username;
-        this.xbox_id = xbox_user_id;
+        this.xuid = xbox_user_id;
         this.platform_chat_id = platform_chat_id;
         this.build_platform = build_platform;
         this.skin_data = skin_data;

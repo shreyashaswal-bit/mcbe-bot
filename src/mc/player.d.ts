@@ -28,7 +28,7 @@ export declare class Player {
     uuid: string;
     entity_id: bigint;
     username: string;
-    xbox_id: string;
+    xuid: string;
     platform_chat_id: string;
     build_platform: number;
     skin_data: SkinData;

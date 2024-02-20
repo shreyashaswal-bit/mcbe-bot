@@ -17,9 +17,9 @@ class Bot extends bedrock.Client {
     players = {};
     currentForm = null;
 
-    constructor(config, { shuo_form = true, auto_close_form = true, auto_respawn = true }) {
+    constructor(config, { show_form = true, auto_close_form = true, auto_respawn = true }) {
         super(config);
-        this.showForm = shuo_form;
+        this.showForm = show_form;
         this.autoCloseForm = auto_close_form;
         this.auto_respawn = auto_respawn;
 
