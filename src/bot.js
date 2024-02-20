@@ -6,10 +6,9 @@ const { ping } = require("bedrock-protocol/src/createClient");
 const { sleep } = require("bedrock-protocol/src/datatypes/util");
 
 const s = require("./util/consoleStyle");
-const { renderForm, Form } = require("./mc/form");
+const { Form } = require("./mc/form");
 const { translation } = require("./mc/text");
 const { Vec3, BlockPosition } = require("./util/data");
-const { processMessage } = require("./mc/text");
 const { renderJsonMessage } = require("./mc/text");
 const { Player } = require("./mc/player");
 
@@ -55,6 +54,8 @@ class Bot extends bedrock.Client {
                 message = `[whisper] §o${param.source_name} 悄悄对你说: ${param.message}§r`;
             } else if (param.type === "json") {
                 message = `[json] ${renderJsonMessage(param)}`;
+            } else if (param.type === "announcement") {
+                message = `[announcement] ${param.message}`;
             } else {
                 return;
             }
