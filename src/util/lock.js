@@ -1,5 +1,5 @@
 class Lock {
-    callback = null;
+    callback = new Promise((resolve) => resolve());
     status = null;
     lock() {
         this.status = new Promise((resolve) => {
