@@ -7,7 +7,7 @@ module.exports = {
         profilesFolder: "./authdata",
     },
     bot: {
-        shuo_form: true,
+        show_form: true,
         auto_close_form: true,
         auto_respawn: true,
     },
