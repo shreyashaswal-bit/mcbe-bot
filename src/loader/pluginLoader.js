@@ -2,17 +2,16 @@ const fs = require("fs");
 const path = require("path");
 const s = require("../util/consoleStyle");
 
-const plugins = [];
+const plugins = {};
 
 function loadPlugin(plugin_path) {
     try {
         const plugin = require(plugin_path);
+        console.log(s.mc(`[loader]§a successfully loaded plugin ${plugin_path}`));
+        plugins[plugin_path] = plugin;
     } catch {
-        console.log(s.mc(`[loader]§c failed load plugin ${plugin_path}`));
-        return;
+        console.log(s.mc(`[loader]§c failed to load plugin ${plugin_path}`));
     }
-    console.log(s.mc(`[loader]§a successfully loaded plugin ${plugin_path}`));
-    plugins.push(plugin);
 }
 
 function loadPluginDir(plugin_dir) {
@@ -23,8 +22,13 @@ function loadPluginDir(plugin_dir) {
 }
 
 function startAllPlugin(context) {
-    plugins.forEach((plugin) => {
-        plugin(context);
+    Object.entries(plugins).forEach(([plugin_path, plugin]) => {
+        try {
+            plugin(context);
+            console.log(s.mc(`[loader]§a successfully started plugin ${plugin_path}`));
+        } catch {
+            console.log(s.mc(`[loader]§c failed to start plugin ${plugin_path}`));
+        }
     });
 }
 

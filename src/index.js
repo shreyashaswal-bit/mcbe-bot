@@ -4,8 +4,11 @@ const { inputConsole } = require("./console");
 const { loadPluginDir, startAllPlugin } = require("./loader/pluginLoader");
 const { ContextImpl } = require("./loader/context");
 const config = require("./config");
+const { Bot } = require("./bot");
 
-const bot = createBot(config.client, config.bot);
+const bot = new Bot(config.client, config.bot);
+bot.connect();
+bot.on("close", () => process.exit(1));
 inputConsole.start();
 inputConsole.on("input", (input) => {
     if (input.startsWith(".")) {
