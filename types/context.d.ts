@@ -1,4 +1,6 @@
 import { Command } from "commander";
+import { Context } from "./context";
+import { Config } from "./config";
 import { Bot } from "../src/bot";
 import { Console } from "../src/console";
 import { Form } from "../src/mc/form";
@@ -8,6 +10,7 @@ export declare type Context = {
     bot: Bot;
     console: Console;
     parser: Command;
+    config: Confog;
 
     on(event_name: "player_join", callback: (player: Player) => void): Bot;
     on(event_name: "player_leave", callback: (player: Player) => void): Bot;

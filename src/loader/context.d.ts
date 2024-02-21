@@ -1,5 +1,6 @@
 import { Command } from "commander";
-import { Context } from "../../type/context";
+import { Context } from "../../types/context";
+import { Config } from "../../types/config";
 import { Bot } from "../bot";
 import { Console } from "../console";
 import { Form } from "../mc/form";
@@ -9,6 +10,7 @@ export class ContextImpl implements Context {
     bot: Bot;
     console: Console;
     parser: Command;
+    config: Config;
 
     on(event_name: "player_join", callback: (player: Player) => void): Bot;
     on(event_name: "player_leave", callback: (player: Player) => void): Bot;

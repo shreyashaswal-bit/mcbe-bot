@@ -1,7 +1,7 @@
 import { Client } from "bedrock-protocol";
 
-import { Player } from "../type/player";
-import { StartGameData } from "../type/startGameData";
+import { Player } from "../types/player";
+import { StartGameData } from "../types/startGameData";
 import { BlockPosition } from "./util/data";
 import { Form } from "./mc/form";
 
