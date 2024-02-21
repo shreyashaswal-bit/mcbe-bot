@@ -18,4 +18,11 @@ export class ContextImpl implements Context {
     on(event_name: "message", callback: (message: string) => void): Bot;
     on(event_name: "form", callback: (form: Form) => void): Bot;
     on(event_name: string, callback: (data: any) => void): Bot;
+
+    once(event_name: "player_join", callback: (player: Player) => void): Bot;
+    once(event_name: "player_leave", callback: (player: Player) => void): Bot;
+    once(event_name: "player_list_update", callback: (player_list: { [uuid: string]: Player }) => void): Bot;
+    once(event_name: "message", callback: (message: string) => void): Bot;
+    once(event_name: "form", callback: (form: Form) => void): Bot;
+    once(event_name: string, callback: (data: any) => void): Bot;
 }

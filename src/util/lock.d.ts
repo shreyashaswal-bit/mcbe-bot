@@ -1,5 +1,5 @@
 export declare class Lock {
-    status: Promise;
+    status: Promise<void>;
     lock(): void;
     unlock(): void;
 }

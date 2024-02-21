@@ -9,6 +9,10 @@ class ContextImpl {
     on(event_name, callback) {
         return this.bot.on(event_name, callback);
     }
+
+    once(event_name, callback) {
+        return this.bot.once(event_name, callback);
+    }
 }
 
 module.exports = { ContextImpl };
