@@ -17,6 +17,9 @@ let config = {
     mc: {
         lang: "zh_CN",
     },
+    program: {
+        exit_when_bot_closed: true,
+    },
 };
 
 const configEnv = process.env.BOT_ENV;

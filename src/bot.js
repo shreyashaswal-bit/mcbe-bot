@@ -24,7 +24,7 @@ class Bot extends bedrock.Client {
         super(config);
         this.showForm = show_form;
         this.autoCloseForm = auto_close_form;
-        this.auto_respawn = auto_respawn;
+        this.autoRespawn = auto_respawn;
 
         this.on("player_list", (param) => {
             if (param.records.type == "add") {

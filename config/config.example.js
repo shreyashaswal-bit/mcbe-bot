@@ -1,6 +1,6 @@
 module.exports = {
     client: {
-        host: "mc.kanfeidie.com",
+        host: "example.com",
         port: 19132,
         version: "1.20.40",
         offline: false,
@@ -13,5 +13,8 @@ module.exports = {
     },
     mc: {
         lang: "zh_CN",
+    },
+    program: {
+        exit_when_bot_closed: true,
     },
 };

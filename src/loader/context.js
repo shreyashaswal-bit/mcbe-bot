@@ -1,8 +1,9 @@
 class ContextImpl {
-    constructor({ bot, console, parser }) {
+    constructor({ bot, console, parser, config }) {
         this.bot = bot;
         this.console = console;
         this.parser = parser;
+        this.config = config;
     }
 
     on(event_name, callback) {

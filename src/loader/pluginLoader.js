@@ -26,7 +26,7 @@ function startAllPlugin(context) {
     Object.entries(plugins).forEach(([plugin_name, plugin]) => {
         try {
             plugin(context);
-            console.log(s.mc(`[loader]§a successfully started plugin ${plugin_name}`));
+            // console.debug(s.mc(`[loader]§a successfully started plugin ${plugin_name}`));
         } catch {
             console.log(s.mc(`[loader]§c failed to start plugin ${plugin_name}`));
         }

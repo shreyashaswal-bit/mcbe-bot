@@ -8,7 +8,9 @@ const { Bot } = require("./bot");
 
 const bot = new Bot(config.client, config.bot);
 bot.connect();
-bot.on("close", () => process.exit(1));
+bot.on("close", () => {
+    if (config.program.exit_when_bot_closed) process.exit(1);
+});
 inputConsole.start();
 inputConsole.on("input", (input) => {
     if (input.startsWith(".")) {
