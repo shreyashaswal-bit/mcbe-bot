@@ -196,7 +196,7 @@ class Bot extends bedrock.Client {
                 });
                 break;
             case 1:
-                this.action(7);
+                this.action(7, {});
                 break;
         }
     }
