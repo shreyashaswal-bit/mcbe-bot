@@ -1,7 +1,9 @@
 const assert = require("assert");
 
 const bedrock = require("bedrock-protocol");
+const advertisement = require("bedrock-protocol/src/server/advertisement");
 const auth = require("bedrock-protocol/src/client/auth");
+const rak = require("bedrock-protocol/src/rak");
 const { ping } = require("bedrock-protocol/src/createClient");
 const { sleep } = require("bedrock-protocol/src/datatypes/util");
 
@@ -11,6 +13,8 @@ const { translation } = require("./mc/text");
 const { Vec3, BlockPosition } = require("./util/data");
 const { renderJsonMessage } = require("./mc/text");
 const { Player } = require("./mc/player");
+
+const { RakClient } = rak("raknet-native");
 
 class Bot extends bedrock.Client {
     players = {};
@@ -51,7 +55,7 @@ class Bot extends bedrock.Client {
             } else if (param.type === "translation") {
                 message = `[translation] ${translation(param.parameters, param.message)}`;
             } else if (param.type === "whisper") {
-                message = `[whisper] §o${param.source_name} 悄悄对你说: ${param.message}§r`;
+                message = `[whisper] §o${translation([param.source_name, param.message], "commands.message.display.incoming")}`;
             } else if (param.type === "json") {
                 message = `[json] ${renderJsonMessage(param)}`;
             } else if (param.type === "announcement") {
@@ -78,6 +82,74 @@ class Bot extends bedrock.Client {
         this.on("respawn", (param) => {
             if (this.autoRespawn) this.respawn(param);
         });
+
+        this.on("connect_allowed", () => {
+            this.connect();
+        });
+
+        this.on("connected", () => {
+            console.log("[bot] Bot connected!");
+
+            this.once("resource_packs_info", (packet) => {
+                this.write("resource_pack_client_response", {
+                    response_status: "completed",
+                    resourcepackids: [],
+                });
+                this.once("resource_pack_stack", (stack) => {
+                    this.write("resource_pack_client_response", {
+                        response_status: "completed",
+                        resourcepackids: [],
+                    });
+                });
+                this.queue("client_cache_status", { enabled: false });
+                this.queue("tick_sync", { request_time: BigInt(Date.now()), response_time: 0n });
+                setTimeout(() => {
+                    this.queue("request_chunk_radius", { chunk_radius: this.viewDistance || 10 });
+                }, 500);
+            });
+            // Send tick sync packets every 10 ticks
+            const keepAliveInterval = 10;
+            const keepAliveIntervalBig = BigInt(keepAliveInterval);
+            let keepalive;
+            this.tick = 0n;
+            this.once("spawn", () => {
+                keepalive = setInterval(() => {
+                    // Client fills out the request_time and the server does response_time in its reply.
+                    this.queue("tick_sync", { request_time: this.tick, response_time: 0n });
+                    this.tick += keepAliveIntervalBig;
+                }, 50 * keepAliveInterval);
+
+                this.on("tick_sync", async (packet) => {
+                    this.emit("heartbeat", packet.response_time);
+                    this.tick = packet.response_time;
+                });
+            });
+            this.once("close", () => {
+                console.log("[bot] Bot Closed!");
+                clearInterval(keepalive);
+            });
+        });
+    }
+
+    async connect() {
+        const ad = await this.ping();
+        const message =
+            `§b====== §rServer Info §b======§r\n` +
+            `motd: \t${ad.motd}\n` +
+            `version: \t${ad.version}\n` +
+            `player: \t${ad.playersOnline}/${ad.playersMax}\n`;
+        console.log(s.mc(message));
+        super.connect();
+        this.emit("connected");
+    }
+
+    async ping() {
+        const client = new RakClient(this.options);
+        try {
+            return advertisement.fromServerName(await client.ping());
+        } finally {
+            client.close();
+        }
     }
 
     chat(message) {
@@ -148,90 +220,4 @@ class Bot extends bedrock.Client {
     }
 }
 
-function createBot(client_config, bot_config) {
-    assert(client_config);
-    const bot = new Bot(
-        { port: 19132, followPort: !client_config.realms, ...client_config, delayedInit: true },
-        bot_config,
-    );
-
-    function onServerInfo() {
-        bot.on("connect_allowed", () => connect(bot));
-        if (client_config.skipPing) {
-            bot.init();
-        } else {
-            ping(bot.options)
-                .then((ad) => {
-                    const adVersion = ad.version?.split(".").slice(0, 3).join("."); // Only 3 version units
-                    bot.options.version =
-                        client_config.version ?? (Options.Versions[adVersion] ? adVersion : Options.CURRENT_VERSION);
-
-                    if (ad.portV4 && bot.options.followPort) {
-                        bot.options.port = ad.portV4;
-                    }
-
-                    bot.conLog?.(
-                        `Connecting to ${bot.options.host}:${bot.options.port} ${ad.motd} (${ad.levelName}), version ${ad.version} ${bot.options.version !== ad.version ? ` (as ${bot.options.version})` : ""}`,
-                    );
-                    bot.init();
-                })
-                .catch((e) => bot.emit("error", e));
-        }
-    }
-
-    if (client_config.realms) {
-        auth.realmAuthenticate(bot.options)
-            .then(onServerInfo)
-            .catch((e) => bot.emit("error", e));
-    } else {
-        onServerInfo();
-    }
-    return bot;
-}
-
-function connect(client) {
-    // Actually connect
-    client.connect();
-
-    client.once("resource_packs_info", (packet) => {
-        client.write("resource_pack_client_response", {
-            response_status: "completed",
-            resourcepackids: [],
-        });
-
-        client.once("resource_pack_stack", (stack) => {
-            client.write("resource_pack_client_response", {
-                response_status: "completed",
-                resourcepackids: [],
-            });
-        });
-
-        client.queue("client_cache_status", { enabled: false });
-        client.queue("tick_sync", { request_time: BigInt(Date.now()), response_time: 0n });
-        sleep(500).then(() => client.queue("request_chunk_radius", { chunk_radius: client.viewDistance || 10 }));
-    });
-
-    // Send tick sync packets every 10 ticks
-    const keepAliveInterval = 10;
-    const keepAliveIntervalBig = BigInt(keepAliveInterval);
-    let keepalive;
-    client.tick = 0n;
-    client.once("spawn", () => {
-        keepalive = setInterval(() => {
-            // Client fills out the request_time and the server does response_time in its reply.
-            client.queue("tick_sync", { request_time: client.tick, response_time: 0n });
-            client.tick += keepAliveIntervalBig;
-        }, 50 * keepAliveInterval);
-
-        client.on("tick_sync", async (packet) => {
-            client.emit("heartbeat", packet.response_time);
-            client.tick = packet.response_time;
-        });
-    });
-
-    client.once("close", () => {
-        clearInterval(keepalive);
-    });
-}
-
-module.exports = { Bot, createBot };
+module.exports = { Bot };
