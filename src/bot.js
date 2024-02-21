@@ -113,6 +113,7 @@ class Bot extends bedrock.Client {
             let keepalive;
             this.tick = 0n;
             this.once("spawn", () => {
+                console.log("[bot] bot spawned");
                 keepalive = setInterval(() => {
                     // Client fills out the request_time and the server does response_time in its reply.
                     this.queue("tick_sync", { request_time: this.tick, response_time: 0n });
