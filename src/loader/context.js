@@ -5,8 +5,8 @@ class ContextImpl {
         this.parser = parser;
     }
 
-    on(...args) {
-        return this.bot.on(...args);
+    on(event_name, callback) {
+        return this.bot.on(event_name, callback);
     }
 }
 

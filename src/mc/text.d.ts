@@ -31,13 +31,13 @@ export declare function renderBaseText(base_text: object): string;
 /**
  * 渲染rawText
  * @param {string} raw_text
- * @returns string
+ * @returns {string}
  */
 export declare function renderRawText(raw_text: object): string;
 
 /**
  * 渲染json消息
  * @param {object} data
- * @returns
+ * @returns {string}
  */
 export declare function renderJsonMessage(data: object): string;

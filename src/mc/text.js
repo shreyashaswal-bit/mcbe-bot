@@ -68,7 +68,7 @@ function renderBaseText(base_text) {
 /**
  * 渲染rawText
  * @param {string} raw_text
- * @returns string
+ * @returns {string}
  */
 function renderRawText(raw_text) {
     let result = "";
@@ -81,7 +81,7 @@ function renderRawText(raw_text) {
 /**
  * 渲染json消息
  * @param {object} data
- * @returns
+ * @returns {string}
  */
 function renderJsonMessage(data) {
     let rawText = JSON.parse(data.message);
