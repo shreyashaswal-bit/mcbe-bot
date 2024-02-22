@@ -1,6 +1,7 @@
 /node_modules/
-/authdata
-/.vscode
+/authdata/
+/*.authdata/
+/.vscode/
 /config/config.dev.js
 /type/**/*.js
 /plugins/tsExample.js
