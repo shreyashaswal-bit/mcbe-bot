@@ -4,6 +4,7 @@ import { Player } from "../types/player";
 import { StartGameData } from "../types/startGameData";
 import { BlockPosition } from "./util/data";
 import { Form } from "./mc/form";
+import { BotConfig, ClientConfig } from "../types/config";
 
 export declare class Bot extends Client {
     players: { [uuid: string]: Player };
@@ -12,6 +13,8 @@ export declare class Bot extends Client {
     showForm: boolean;
     autoCloseForm: boolean;
     autoRespawn: boolean;
+
+    constructor(config: ClientConfig, param: BotConfig);
 
     on(event_name: "player_join", callback: (player: Player) => void): this;
     on(event_name: "player_leave", callback: (player: Player) => void): this;
@@ -27,6 +30,8 @@ export declare class Bot extends Client {
     once(event_name: "form", callback: (form: Form) => void): this;
     once(event_name: string, callback: (param: any) => void): this;
 
+    connect(): Promise<void>;
+    ping(): Promise<void>;
     chat(message: string): void;
     command(command: string): void;
     action(id: number, data: { position: BlockPosition; result_position: BlockPosition; face: number }): void;
@@ -35,14 +40,16 @@ export declare class Bot extends Client {
 
     // Client
 
+    options: ClientConfig;
     startGameData: StartGameData;
-    tick: bigint;
     profile: {
         name: string;
         uuid: string;
         xuid: string;
     };
+    tick: bigint | void;
     username: string;
+    viewDistance: number;
 }
 
 export declare function createBot(options: object): Bot;

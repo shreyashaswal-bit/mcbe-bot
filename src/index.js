@@ -26,6 +26,6 @@ inputConsole.on("input", (input) => {
     }
 });
 
-const context = new ContextImpl({ bot, console: inputConsole, parser });
+const context = new ContextImpl({ bot, console: inputConsole, parser, config });
 loadPluginDir("./plugins");
 startAllPlugin(context);
