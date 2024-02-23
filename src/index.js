@@ -10,7 +10,7 @@ const bot = new Bot(config.client, config.bot);
 bot.connect();
 bot.on("close", () => {
     if (config.program.exit_when_bot_closed) {
-        console.log("[system] bot closed!")
+        console.log("[system] bot closed!");
         process.exit(1);
     }
 });
