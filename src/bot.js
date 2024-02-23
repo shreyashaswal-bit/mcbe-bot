@@ -136,7 +136,7 @@ class Bot extends bedrock.Client {
         const ad = await this.ping();
         const message =
             `§b====== §rServer Info §b======§r\n` +
-            `motd: \t${ad.motd}\n` +
+            `motd: \t\t${ad.motd}\n` +
             `version: \t${ad.version}\n` +
             `player: \t${ad.playersOnline}/${ad.playersMax}\n`;
         console.log(s.mc(message));
