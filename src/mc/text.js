@@ -6,7 +6,7 @@ const config = require("../config");
 
 const translateFile = fs.readFileSync(path.join("./assets", `${config.mc.lang}.lang`));
 // 翻译索引
-const parse = properties.parse(translateFile);
+const parse = properties.parse(translateFile.toString());
 
 /**
  * 翻译
@@ -44,8 +44,8 @@ function translation(parameters, message) {
 
 /**
  * 渲染基础聊天对象
- * @param {string} base_text
- * @returns {string}
+ * @param {object} base_text
+ * @returns {string|void}
  */
 function renderBaseText(base_text) {
     if (base_text.text) {
@@ -67,7 +67,7 @@ function renderBaseText(base_text) {
 
 /**
  * 渲染rawText
- * @param {string} raw_text
+ * @param {object} raw_text
  * @returns {string}
  */
 function renderRawText(raw_text) {
@@ -92,4 +92,4 @@ function renderJsonMessage(data) {
     return result;
 }
 
-module.exports = { translate, formatMessage, translation, renderBaseText, renderBaseText, renderJsonMessage };
+module.exports = { translate, formatMessage, translation, renderBaseText, renderRawText, renderJsonMessage };
