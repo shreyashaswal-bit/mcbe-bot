@@ -3,6 +3,7 @@ const { renderForm } = require("./mc/form");
 const { Vec3, BlockPosition } = require("./util/data");
 
 const parser = new Command();
+const rmQuot = (str) => str.replace(/^"|"$/g, "");
 let bot = null;
 
 parser.exitOverride((e) => {
@@ -46,7 +47,7 @@ parser
                     let resultArray = [];
                     for (let elem of form.content) {
                         if (elem.type === "input") {
-                            resultArray.push(args[index]);
+                            resultArray.push(rmQuot(args[index]));
                             index++;
                         } else if (elem.type === "dropdown") {
                             resultArray.push(Number(args[index]));
@@ -80,7 +81,6 @@ parser
     .addHelpText("after", '  action 2 "-123,45,678" \t停止破坏(123,45,678)处的方块')
     .addHelpText("after", "  action 21 \t\t\t\t开始游泳")
     .action(async (id_str, position_str, result_position_str, face_str) => {
-        let rmQuot = (str) => str.replace(/^"|"$/g, "");
         let id = Number(id_str);
         let position = new BlockPosition(...rmQuot(position_str).split(","));
         let resultPosition = new BlockPosition(...rmQuot(result_position_str).split(","));
@@ -95,4 +95,4 @@ function parse(bot_, argv) {
     } catch {}
 }
 
-module.exports = { parse };
+module.exports = { parser, parse };

@@ -39,4 +39,4 @@ export let magenta: string;
 export let cyan: string;
 export let white: string;
 
-export declare function mc(data: string[] | string): string;
+export declare function mc(data: TemplateStringsArray | string): string;

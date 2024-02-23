@@ -1,14 +1,14 @@
 const s = require("../util/consoleStyle");
 
 class Form {
-    constructor(bot, param) {
+    constructor(bot, { form_id, data }) {
         this.bot = bot;
-        this.id = param.form_id;
-        let data = JSON.parse(param.data);
-        this.type = data.type;
-        this.title = data.title;
-        this.content = data.content;
-        this.buttons = data.buttons;
+        this.id = form_id;
+        let formData = JSON.parse(data);
+        this.type = formData.type;
+        this.title = formData.title;
+        this.content = formData.content;
+        this.buttons = formData.buttons;
     }
 
     render() {
@@ -16,7 +16,7 @@ class Form {
         if (this.type == "form") {
             result += `${this.content}\n\n`;
             this.buttons.forEach((value, index) => {
-                result += `  ${s.yellow}${index}. ${s.gray}${value.text}${s.clear}\n`;
+                result += `  §e${index}.§r ${value.text}§r\n`;
             });
             result += "\n";
         } else if (this.type === "custom_form") {
@@ -24,11 +24,11 @@ class Form {
                 if (value.type === "label") {
                     result += `${value.text}\n`;
                 } else if (value.type === "input") {
-                    result += `${s.blue}[${s.clear} ${value.text} ${s.blue}]${s.clear}\n`;
+                    result += `§b[§r ${value.text} §b]§r\n`;
                 } else if (value.type === "dropdown") {
-                    result += `${s.blue}[ ${s.green}> ${s.clear}${value.text} ${s.blue}]${s.clear}\n`;
+                    result += `§b[ §a> §r${value.text} §b]§r\n`;
                     value.options.forEach((value, index) => {
-                        result += `  ${s.green}- ${s.yellow}${index}. ${s.gray}${value}${s.clear}\n`;
+                        result += `  §a- §e${index}.§r ${value}\n`;
                     });
                     result += "\n";
                 }

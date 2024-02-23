@@ -10,23 +10,25 @@ let config = {
         profilesFolder: "./authdata",
     },
     bot: {
-        shuo_form: true,
+        show_form: true,
         auto_close_form: true,
         auto_respawn: true,
     },
     mc: {
         lang: "zh_CN",
     },
+    program: {
+        exit_when_bot_closed: true,
+    },
 };
 
 const configEnv = process.env.BOT_ENV;
 
 if (configEnv) {
-    let { client, bot, mc } = require(`../config/config.${configEnv}`);
-    client = Object.assign(config.client, client);
-    bot = Object.assign(config.bot, bot);
-    mc = Object.assign(config.mc, mc);
-    config = { client, bot, mc };
+    let newConfig = require(`../config/config.${configEnv}`);
+    Object.entries(newConfig).forEach(([key, value]) => {
+        config[key] = Object.assign(config[key], value);
+    });
 }
 
 module.exports = config;

@@ -1,9 +1,19 @@
 const { createBot } = require("./bot");
-const { parse } = require("./command");
+const { parse, parser } = require("./command");
 const { inputConsole } = require("./console");
+const { loadPluginDir, startAllPlugin } = require("./loader/pluginLoader");
+const { ContextImpl } = require("./loader/context");
 const config = require("./config");
+const { Bot } = require("./bot");
 
-const bot = createBot(config.client, config.bot);
+const bot = new Bot(config.client, config.bot);
+bot.connect();
+bot.on("close", () => {
+    if (config.program.exit_when_bot_closed) {
+        console.log("[system] bot closed!")
+        process.exit(1);
+    }
+});
 inputConsole.start();
 inputConsole.on("input", (input) => {
     if (input.startsWith(".")) {
@@ -15,3 +25,7 @@ inputConsole.on("input", (input) => {
         bot.chat(input);
     }
 });
+
+const context = new ContextImpl({ bot, console: inputConsole, parser });
+loadPluginDir("./plugins");
+startAllPlugin(context);
