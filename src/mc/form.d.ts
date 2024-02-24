@@ -7,7 +7,7 @@ type FormContent = {
 };
 
 type FormButton = {
-    test: string;
+    text: string;
 };
 
 export declare class Form {
@@ -24,3 +24,4 @@ export declare class Form {
     close(): void;
     busy(): void;
 }
+
