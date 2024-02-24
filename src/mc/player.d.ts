@@ -34,15 +34,18 @@ export declare class Player {
     skin_data: SkinData;
     is_teacher: boolean;
     is_host: boolean;
-    constructor(param: {
-        uuid: string;
-        entity_unique_id: bigint;
-        username: string;
-        xbox_user_id: string;
-        platform_chat_id: string;
-        build_platform: number;
-        skin_data: SkinData;
-        is_teacher: boolean;
-        is_host: boolean;
-    });
+    constructor(
+        bot: Bot,
+        param: {
+            uuid: string;
+            entity_unique_id: bigint;
+            username: string;
+            xbox_user_id: string;
+            platform_chat_id: string;
+            build_platform: number;
+            skin_data: SkinData;
+            is_teacher: boolean;
+            is_host: boolean;
+        },
+    );
 }

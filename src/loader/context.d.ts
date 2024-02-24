@@ -12,6 +12,8 @@ export class ContextImpl implements Context {
     parser: Command;
     config: Config;
 
+    constructor(param: { bot: Bot; console: Console; parser: Command; config: Config });
+
     on(event_name: "player_join", callback: (player: Player) => void): Bot;
     on(event_name: "player_leave", callback: (player: Player) => void): Bot;
     on(event_name: "player_list_update", callback: (player_list: { [uuid: string]: Player }) => void): Bot;

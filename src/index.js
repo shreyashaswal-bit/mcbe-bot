@@ -17,7 +17,7 @@ bot.on("close", () => {
 inputConsole.start();
 inputConsole.on("input", (input) => {
     if (input.startsWith(".")) {
-        commandArg = input.slice(1, input.length).split(" ");
+        const commandArg = input.slice(1, input.length).split(" ");
         parse(bot, commandArg);
     } else if (input.startsWith("/")) {
         bot.command(input);
@@ -26,6 +26,6 @@ inputConsole.on("input", (input) => {
     }
 });
 
-const context = new ContextImpl({ bot, console: inputConsole, parser });
+const context = new ContextImpl({ bot, console: inputConsole, parser, config });
 loadPluginDir("./plugins");
 startAllPlugin(context);

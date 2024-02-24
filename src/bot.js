@@ -2,10 +2,7 @@ const assert = require("assert");
 
 const bedrock = require("bedrock-protocol");
 const advertisement = require("bedrock-protocol/src/server/advertisement");
-const auth = require("bedrock-protocol/src/client/auth");
 const rak = require("bedrock-protocol/src/rak");
-const { ping } = require("bedrock-protocol/src/createClient");
-const { sleep } = require("bedrock-protocol/src/datatypes/util");
 
 const s = require("./util/consoleStyle");
 const { Form } = require("./mc/form");
@@ -30,6 +27,7 @@ class Bot extends bedrock.Client {
             if (param.records.type == "add") {
                 param.records.records.forEach((player_data) => {
                     if (this.players[player_data.uuid]) return;
+
                     const player = new Player(this, player_data);
                     this.players[player_data.uuid] = player;
                     this.emit("player_join", player);
@@ -140,6 +138,7 @@ class Bot extends bedrock.Client {
             `version: \t${ad.version}\n` +
             `player: \t${ad.playersOnline}/${ad.playersMax}\n`;
         console.log(s.mc(message));
+
         super.connect();
         this.emit("connected");
     }

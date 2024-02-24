@@ -1,5 +1,4 @@
 const { Command } = require("commander");
-const { renderForm } = require("./mc/form");
 const { Vec3, BlockPosition } = require("./util/data");
 
 const parser = new Command();
@@ -40,7 +39,7 @@ parser
                 form.response(JSON.parse(args.join(" ")));
             } else {
                 if (form.type === "form") {
-                    pressedButton = Number(args[0]);
+                    const pressedButton = Number(args[0]);
                     form.response(pressedButton);
                 } else if (form.type === "custom_form") {
                     let index = 0;
@@ -91,7 +90,7 @@ parser
 function parse(bot_, argv) {
     bot = bot_;
     try {
-        parser.parse([null, null].concat(argv));
+        parser.parse(["", ""].concat(argv));
     } catch {}
 }
 
