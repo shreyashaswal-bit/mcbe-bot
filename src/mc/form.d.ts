@@ -24,4 +24,3 @@ export declare class Form {
     close(): void;
     busy(): void;
 }
-
