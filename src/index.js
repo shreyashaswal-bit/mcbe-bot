@@ -1,9 +1,8 @@
-const { createBot } = require("./bot");
-const { parse, parser } = require("./command");
-const { inputConsole } = require("./console");
 const { loadPluginDir, startAllPlugin } = require("./loader/pluginLoader");
 const { ContextImpl } = require("./loader/context");
 const config = require("./config");
+const { parse, parser } = require("./command");
+const { inputConsole } = require("./console");
 const { Bot } = require("./bot");
 
 const bot = new Bot(config.client, config.bot);

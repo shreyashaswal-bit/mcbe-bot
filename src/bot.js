@@ -6,12 +6,12 @@ const rak = require("bedrock-protocol/src/rak");
 
 const s = require("./util/consoleStyle");
 const { Vec3, BlockPosition } = require("./util/data");
+const { emitEx } = require("./util/emitEx");
+const { FinishException } = require("./exception/finishException");
+const { Event } = require("./event/event");
 const { Form } = require("./mc/form");
 const { Text } = require("./mc/text");
 const { Player } = require("./mc/player");
-const { FinishException } = require("./exception/finishException");
-const { Event } = require("./event/event");
-const { emitEx } = require("./util/emitEx");
 
 // @ts-ignore
 const { RakClient } = rak("raknet-native");

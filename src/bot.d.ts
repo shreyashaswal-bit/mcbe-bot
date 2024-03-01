@@ -3,8 +3,8 @@ import { Client } from "bedrock-protocol";
 import { Player } from "../types/player";
 import { StartGameData } from "../types/startGameData";
 import { BotConfig, ClientConfig } from "../types/config";
-import { Event } from "../src/event/event";
 import { BlockPosition } from "./util/data";
+import { Event } from "./event/event";
 import { Form } from "./mc/form";
 
 type ExCallback<T> = (param: T, event: Event) => void;
