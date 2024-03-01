@@ -2,9 +2,12 @@ import { Client } from "bedrock-protocol";
 
 import { Player } from "../types/player";
 import { StartGameData } from "../types/startGameData";
+import { BotConfig, ClientConfig } from "../types/config";
+import { Event } from "../src/event/event";
 import { BlockPosition } from "./util/data";
 import { Form } from "./mc/form";
-import { BotConfig, ClientConfig } from "../types/config";
+
+type ExCallback<T> = (param: T, event: Event) => void;
 
 export declare class Bot extends Client {
     players: { [uuid: string]: Player };
@@ -16,19 +19,19 @@ export declare class Bot extends Client {
 
     constructor(config: ClientConfig, param: BotConfig);
 
-    on(event_name: "player_join", callback: (player: Player) => void): this;
-    on(event_name: "player_leave", callback: (player: Player) => void): this;
-    on(event_name: "player_list_update", callback: (player_list: { [uuid: string]: Player }) => void): this;
-    on(event_name: "message", callback: (message: string) => void): this;
-    on(event_name: "form", callback: (form: Form) => void): this;
-    on(event_name: string, callback: (param: any) => void): this;
+    on(event_name: "player_join", callback: ExCallback<Player>): this;
+    on(event_name: "player_leave", callback: ExCallback<Player>): this;
+    on(event_name: "player_list_update", callback: ExCallback<{ [uuid: string]: Player }>): this;
+    on(event_name: "message", callback: ExCallback<Text>): this;
+    on(event_name: "form", callback: ExCallback<Form>): this;
+    on(event_name: string, callback: (...param: any) => void): this;
 
-    once(event_name: "player_join", callback: (player: Player) => void): this;
-    once(event_name: "player_leave", callback: (player: Player) => void): this;
-    once(event_name: "player_list_update", callback: (player_list: { [uuid: string]: Player }) => void): this;
-    once(event_name: "message", callback: (message: string) => void): this;
-    once(event_name: "form", callback: (form: Form) => void): this;
-    once(event_name: string, callback: (param: any) => void): this;
+    once(event_name: "player_join", callback: ExCallback<Player>): this;
+    once(event_name: "player_leave", callback: ExCallback<Player>): this;
+    once(event_name: "player_list_update", callback: ExCallback<{ [uuid: string]: Player }>): this;
+    once(event_name: "message", callback: ExCallback<Text>): this;
+    once(event_name: "form", callback: ExCallback<Form>): this;
+    once(event_name: string, callback: (...param: any) => void): this;
 
     connect(): Promise<void>;
     ping(): Promise<void>;

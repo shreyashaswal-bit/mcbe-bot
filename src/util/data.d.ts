@@ -1,5 +1,5 @@
 export declare class Vec3 {
-    constructor(x: number | string = 0, y: number | string = 0, z: number | string = 0);
+    constructor(x: void | number | string, y: void | number | string, z: void | number | string);
 }
 
 export declare class BlockPosition extends Vec3 {}
