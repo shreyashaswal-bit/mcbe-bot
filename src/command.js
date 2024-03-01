@@ -1,4 +1,5 @@
 const { Command } = require("commander");
+
 const { Vec3, BlockPosition } = require("./util/data");
 
 const parser = new Command();

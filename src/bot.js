@@ -5,12 +5,15 @@ const advertisement = require("bedrock-protocol/src/server/advertisement");
 const rak = require("bedrock-protocol/src/rak");
 
 const s = require("./util/consoleStyle");
-const { Form } = require("./mc/form");
-const { translation } = require("./mc/text");
 const { Vec3, BlockPosition } = require("./util/data");
-const { renderJsonMessage } = require("./mc/text");
+const { emitEx } = require("./util/emitEx");
+const { FinishException } = require("./exception/finishException");
+const { Event } = require("./event/event");
+const { Form } = require("./mc/form");
+const { Text } = require("./mc/text");
 const { Player } = require("./mc/player");
 
+// @ts-ignore
 const { RakClient } = rak("raknet-native");
 
 class Bot extends bedrock.Client {
@@ -23,57 +26,66 @@ class Bot extends bedrock.Client {
         this.autoCloseForm = auto_close_form;
         this.autoRespawn = auto_respawn;
 
+        // 监听玩家列表更新事件
         this.on("player_list", (param) => {
-            if (param.records.type == "add") {
-                param.records.records.forEach((player_data) => {
-                    if (this.players[player_data.uuid]) return;
+            // 复制列表, 便于事件处理
+            const newPlayers = { ...this.players };
 
-                    const player = new Player(this, player_data);
-                    this.players[player_data.uuid] = player;
-                    this.emit("player_join", player);
-                });
+            if (param.records.type == "add") {
+                // 添加玩家
+                for (let player_data of param.records.records) {
+                    if (newPlayers[player_data.uuid]) return;
+
+                    // @ts-ignore
+                    let player = new Player(this, player_data);
+                    emitEx(this, "player_join", player, (new_data) => {
+                        if (new_data) player = new_data;
+                        newPlayers[player_data.uuid] = player;
+                    });
+                }
             } else if (param.records.type == "remove") {
-                param.records.records.forEach((player_data) => {
-                    this.emit("player_leave", this.players[player_data.uuid]);
-                    delete this.players[player_data.uuid];
-                });
+                // 移除玩家
+                for (let player_data of param.records.records) {
+                    let player = newPlayers[player_data.uuid];
+                    emitEx(this, "player_leave", player, () => {
+                        delete newPlayers[player_data.uuid];
+                    });
+                }
             }
-            this.emit("player_list_update", this.players);
+
+            emitEx(this, "player_list_update", newPlayers, (new_data) => {
+                if (new_data) this.players = new_data.players;
+            });
         });
 
         this.on("text", (param) => {
             let time = new Date().toLocaleTimeString();
-            let message = "";
-            if (param.type === "chat") {
-                message = param.source_name
-                    ? `[chat] <${param.source_name}> ${param.message}`
-                    : `[chat] ${param.message}`;
-            } else if (param.type === "raw") {
-                message = `[raw] ${param.message}`;
-            } else if (param.type === "translation") {
-                message = `[translation] ${translation(param.parameters, param.message)}`;
-            } else if (param.type === "whisper") {
-                message = `[whisper] §o${translation([param.source_name, param.message], "commands.message.display.incoming")}`;
-            } else if (param.type === "json") {
-                message = `[json] ${renderJsonMessage(param)}`;
-            } else if (param.type === "announcement") {
-                message = `[announcement] ${param.message}`;
-            } else {
-                return;
-            }
-            console.log(time, s.mc(message));
-            this.emit("message", message);
+            let message = new Text(param);
+            emitEx(this, "message", message, (new_data) => {
+                if (new_data) message = new_data;
+                if (["chat", "raw", "announcement", "translation", "json", "whisper"].includes(message.type))
+                    if (message.sourceName) {
+                        console.log(s.mc(`${time} [${message.type}] <${message.sourceName}> ${message.render()}`));
+                    } else {
+                        console.log(s.mc(`${time} [${message.type}] ${message.render()}`));
+                    }
+            });
         });
 
         this.on("modal_form_request", (param) => {
-            const form = new Form(this, param);
+            // @ts-ignore
+            let form = new Form(this, param);
             if (this.currentForm && this.autoCloseForm) {
+                // emitEx(this,"form_close")
                 console.log(s.mc(`[form] 表单未完成, 新的表单 ${form.title} (id:${form.id}) 已自动关闭`));
                 form.busy();
             } else {
+                // @ts-ignore
                 this.currentForm = form;
-                if (this.showForm) form.show();
-                this.emit("form", this.currentForm);
+                emitEx(this, "form", form, (new_data) => {
+                    if (new_data) form = new_data;
+                    if (this.showForm) form.show();
+                });
             }
         });
 
@@ -102,6 +114,7 @@ class Bot extends bedrock.Client {
                 this.queue("client_cache_status", { enabled: false });
                 this.queue("tick_sync", { request_time: BigInt(Date.now()), response_time: 0n });
                 setTimeout(() => {
+                    // @ts-ignore
                     this.queue("request_chunk_radius", { chunk_radius: this.viewDistance || 10 });
                 }, 500);
             });
@@ -139,11 +152,13 @@ class Bot extends bedrock.Client {
             `player: \t${ad.playersOnline}/${ad.playersMax}\n`;
         console.log(s.mc(message));
 
+        // @ts-ignore
         super.connect();
         this.emit("connected");
     }
 
     async ping() {
+        // @ts-ignore
         const client = new RakClient(this.options);
         try {
             return advertisement.fromServerName(await client.ping());
@@ -156,6 +171,7 @@ class Bot extends bedrock.Client {
         this.queue("text", {
             type: "chat",
             needs_translation: false,
+            // @ts-ignore
             source_name: this.username,
             xuid: "",
             platform_chat_id: "",

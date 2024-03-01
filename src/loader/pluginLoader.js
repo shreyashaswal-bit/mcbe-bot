@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+
 const s = require("../util/consoleStyle");
 
 const plugins = {};

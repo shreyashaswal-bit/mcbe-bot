@@ -1,4 +1,5 @@
 import { Command } from "commander";
+
 import { Bot } from "./bot.js";
 
 export const parser: Command;
