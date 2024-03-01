@@ -80,10 +80,10 @@ class Bot extends bedrock.Client {
                 console.log(s.mc(`[form] 表单未完成, 新的表单 ${form.title} (id:${form.id}) 已自动关闭`));
                 form.busy();
             } else {
-                // @ts-ignore
-                this.currentForm = form;
                 emitEx(this, "form", form, (new_data) => {
                     if (new_data) form = new_data;
+                    // @ts-ignore
+                    this.currentForm = form;
                     if (this.showForm) form.show();
                 });
             }
