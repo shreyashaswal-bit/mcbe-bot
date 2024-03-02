@@ -85,7 +85,10 @@ class Bot extends bedrock.Client {
                 emitEx(this, "form", form, (new_data) => {
                     if (new_data) form = new_data;
                     this.currentForm = form;
-                    if (this.showForm) console.log("[form]", s.mc(form.render()));
+                    if (this.showForm) {
+                        console.log("[form] current form:");
+                        console.log(s.mc(form.render()));
+                    }
                 });
             }
         });
@@ -153,10 +156,12 @@ class Bot extends bedrock.Client {
     async connect() {
         const ad = await this.ping();
         const message =
-            `[ping] §b====== §rServer Info §b======§r\n` +
+            `§b====== §rServer Info §b======§r\n` +
             `motd: \t\t${ad.motd}\n` +
             `version: \t${ad.version}\n` +
             `player: \t${ad.playersOnline}/${ad.playersMax}\n`;
+
+        console.log("[bot] ping completed:");
         console.log(s.mc(message));
 
         // @ts-ignore
