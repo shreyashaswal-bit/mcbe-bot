@@ -75,15 +75,17 @@ class Bot extends bedrock.Client {
             // @ts-ignore
             let form = new Form(this, param);
             if (this.currentForm && this.autoCloseForm) {
-                // emitEx(this,"form_close")
-                console.log(s.mc(`[form] 表单未完成, 新的表单 ${form.title} (id:${form.id}) 已自动关闭`));
-                form.busy();
+                emitEx(this, "form_busy", form, (new_data) => {
+                    if (new_data) form = new_data;
+                    console.log(s.mc(`[form] 表单未完成, 新的表单 ${form.title} (id:${form.id}) 已自动关闭`));
+                    form.busy();
+                });
             } else {
+                // console.debug("[form] 收到表单");
                 emitEx(this, "form", form, (new_data) => {
                     if (new_data) form = new_data;
                     this.currentForm = form;
-                    console.log("[form]");
-                    if (this.showForm) form.show();
+                    if (this.showForm) console.log("[form]", s.mc(form.render()));
                 });
             }
         });
@@ -96,8 +98,8 @@ class Bot extends bedrock.Client {
             this.connect();
         });
 
-        this.on("connected", () => {
-            console.log("[bot] Bot connected!");
+        this.on("connect", () => {
+            console.log("[bot] bot connected");
 
             this.once("resource_packs_info", (packet) => {
                 this.write("resource_pack_client_response", {
@@ -123,7 +125,6 @@ class Bot extends bedrock.Client {
             let keepalive;
             this.tick = 0n;
             this.once("spawn", () => {
-                console.log("[bot] bot spawned");
                 keepalive = setInterval(() => {
                     // Client fills out the request_time and the server does response_time in its reply.
                     this.queue("tick_sync", { request_time: this.tick, response_time: 0n });
@@ -136,16 +137,23 @@ class Bot extends bedrock.Client {
                 });
             });
             this.once("close", () => {
-                console.log("[bot] Bot Closed!");
                 clearInterval(keepalive);
             });
+        });
+
+        this.on("spawn", () => {
+            console.log("[bot] bot spawned");
+        });
+
+        this.on("close", () => {
+            console.log("[bot] bot closed");
         });
     }
 
     async connect() {
         const ad = await this.ping();
         const message =
-            `§b====== §rServer Info §b======§r\n` +
+            `[ping] §b====== §rServer Info §b======§r\n` +
             `motd: \t\t${ad.motd}\n` +
             `version: \t${ad.version}\n` +
             `player: \t${ad.playersOnline}/${ad.playersMax}\n`;
@@ -153,7 +161,7 @@ class Bot extends bedrock.Client {
 
         // @ts-ignore
         super.connect();
-        this.emit("connected");
+        this.emit("connect");
     }
 
     async ping() {
