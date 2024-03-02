@@ -3,6 +3,7 @@ type EventFinally = {
     eventSucceed: boolean;
     newData: any;
 };
+type ListenerEx<T> = (param: T, event: Event) => void;
 
 export declare class Event {
     isSuccess: boolean;

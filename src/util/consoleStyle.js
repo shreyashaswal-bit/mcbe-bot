@@ -46,7 +46,7 @@ module.exports = {
         else {
             return;
         }
-        let result = tempStr.replaceAll(/§[abcdefklor0-9]/g, (str) => {
+        let result = tempStr.replace(/§[abcdefklor0-9]/g, (str) => {
             return {
                 "§0": "\x1b[0;30m",
                 "§1": "\x1b[0;34m",

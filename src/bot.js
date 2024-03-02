@@ -18,7 +18,6 @@ const { RakClient } = rak("raknet-native");
 
 class Bot extends bedrock.Client {
     players = {};
-    currentForm = null;
 
     constructor(config, { show_form = true, auto_close_form = true, auto_respawn = true }) {
         super(config);
@@ -82,8 +81,8 @@ class Bot extends bedrock.Client {
             } else {
                 emitEx(this, "form", form, (new_data) => {
                     if (new_data) form = new_data;
-                    // @ts-ignore
                     this.currentForm = form;
+                    console.log("[form]");
                     if (this.showForm) form.show();
                 });
             }

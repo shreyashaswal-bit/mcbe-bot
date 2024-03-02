@@ -5,5 +5,5 @@ export declare function emitEx(
     emitter: EventEmitter,
     event_name: string,
     param: any,
-    succeed: void | ((new_data) => void),
+    succeed: undefined | ((new_data) => void),
 ): EventFinally;

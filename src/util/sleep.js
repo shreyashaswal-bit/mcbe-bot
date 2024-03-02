@@ -1,5 +1,5 @@
 function sleep(time) {
-    let callback;
+    let callback = (value) => {};
     let promise = new Promise((resolve) => {
         callback = resolve;
     });
