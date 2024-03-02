@@ -8,8 +8,8 @@ const { Bot } = require("./bot");
 const bot = new Bot(config.client, config.bot);
 bot.connect();
 bot.on("close", () => {
+    console.log("[system] bot closed!");
     if (config.program.exit_when_bot_closed) {
-        console.log("[system] bot closed!");
         process.exit(1);
     }
 });
