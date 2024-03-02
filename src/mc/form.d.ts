@@ -15,7 +15,7 @@ export declare class Form {
     id: number;
     type: "form" | "custom_form";
     title: string;
-    content: FormContent | string;
+    content: FormContent[] | string;
     buttons: FormButton[];
     constructor(bot: Bot, param: { form_id: number; data: string });
     render(): string;

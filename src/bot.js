@@ -191,12 +191,12 @@ class Bot extends bedrock.Client {
         });
     }
 
-    action(id, { position = new BlockPosition(), result_position = new BlockPosition(), face = 0 }) {
+    action(id, { position = new BlockPosition(), resultPosition = new BlockPosition(), face = 0 }) {
         this.queue("player_action", {
             runtime_entity_id: this.entityId,
             action: id,
             position,
-            result_position,
+            result_position: resultPosition,
             face,
         });
     }

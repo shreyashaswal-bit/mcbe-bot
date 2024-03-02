@@ -35,7 +35,7 @@ export declare class Bot extends Client {
     ping(): Promise<void>;
     chat(message: string): void;
     command(command: string): void;
-    action(id: number, data: { position: BlockPosition; result_position: BlockPosition; face: number }): void;
+    action(id: number, data: { position: BlockPosition; resultPosition: BlockPosition; face: number }): void;
     responseForm(form_id: number, data: object): void;
     cancelForm(form_id: number, reason: number): void;
 
