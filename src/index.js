@@ -16,7 +16,7 @@ bot.on("close", () => {
 inputConsole.start();
 inputConsole.on("input", (input) => {
     if (input.startsWith(".")) {
-        const commandArg = input.slice(1, input.length).split(" ");
+        const commandArg = input.slice(1).split(" ");
         parse(bot, commandArg);
     } else if (input.startsWith("/")) {
         bot.command(input);
