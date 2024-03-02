@@ -20,6 +20,7 @@ export declare type Context = {
     on(event_name: "player_list_update", callback: ListenerEx<{ [uuid: string]: Player }>): Bot;
     on(event_name: "message", callback: ListenerEx<Text>): Bot;
     on(event_name: "form", callback: ListenerEx<Form>): Bot;
+    on(event_name: "form_busy", callback: ListenerEx<Form>): Bot;
     on(event_name: string, callback: (...param: any) => void): Bot;
 
     once(event_name: "player_join", callback: ListenerEx<Player>): Bot;
@@ -27,5 +28,6 @@ export declare type Context = {
     once(event_name: "player_list_update", callback: ListenerEx<{ [uuid: string]: Player }>): Bot;
     once(event_name: "message", callback: ListenerEx<Text>): Bot;
     once(event_name: "form", callback: ListenerEx<Form>): Bot;
+    once(event_name: "form_busy", callback: ListenerEx<Form>): Bot;
     once(event_name: string, callback: (...param: any) => void): Bot;
 };

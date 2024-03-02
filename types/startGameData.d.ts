@@ -1,3 +1,4 @@
+// TODO: 完善类型
 export declare type StartGameData = {
     entity_id: bigint;
     runtime_entity_id: bigint;

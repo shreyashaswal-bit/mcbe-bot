@@ -22,6 +22,7 @@ export declare class Bot extends Client {
     on(event_name: "player_list_update", callback: ListenerEx<{ [uuid: string]: Player }>): this;
     on(event_name: "message", callback: ListenerEx<Text>): this;
     on(event_name: "form", callback: ListenerEx<Form>): this;
+    on(event_name: "form_busy", callback: ListenerEx<Form>): this;
     on(event_name: string, callback: (...param: any) => void): this;
 
     once(event_name: "player_join", callback: ListenerEx<Player>): this;
@@ -29,6 +30,7 @@ export declare class Bot extends Client {
     once(event_name: "player_list_update", callback: ListenerEx<{ [uuid: string]: Player }>): this;
     once(event_name: "message", callback: ListenerEx<Text>): this;
     once(event_name: "form", callback: ListenerEx<Form>): this;
+    once(event_name: "form_busy", callback: ListenerEx<Form>): this;
     once(event_name: string, callback: (...param: any) => void): this;
 
     connect(): Promise<void>;
