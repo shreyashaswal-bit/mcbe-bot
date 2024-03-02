@@ -1,4 +1,4 @@
-type callback = (new_data: void | object) => void;
+type SucceedCallback = (new_data: void | object) => void;
 type EventFinally = {
     eventSucceed: boolean;
     newData: any;
@@ -7,9 +7,9 @@ type ListenerEx<T> = (param: T, event: Event) => void;
 
 export declare class Event {
     isSuccess: boolean;
-    _callback: callback;
+    _callback: SucceedCallback;
 
-    constructor(callback: callback);
+    constructor(callback: SucceedCallback);
 
     reject(): void;
     update(new_data: any): void;
