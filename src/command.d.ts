@@ -1,7 +1,7 @@
 import { Command } from "commander";
 
-import { Bot } from "./bot.js";
+import { Context } from "../types/context.js";
 
 export const parser: Command;
 
-export declare function parse(bot: Bot, argv: string[]): void;
+export declare function parse(context: Context, argv: string[]): void;

@@ -6,6 +6,8 @@ const { inputConsole } = require("./console");
 const { Bot } = require("./bot");
 
 const bot = new Bot(config.client, config.bot);
+const context = new ContextImpl({ bot, console: inputConsole, parser, config });
+
 bot.connect();
 bot.on("close", () => {
     console.log("[system] bot closed!");
@@ -13,11 +15,12 @@ bot.on("close", () => {
         process.exit(1);
     }
 });
+
 inputConsole.start();
 inputConsole.on("input", (input) => {
     if (input.startsWith(".")) {
         const commandArg = input.slice(1).split(" ");
-        parse(bot, commandArg);
+        parse(context, commandArg);
     } else if (input.startsWith("/")) {
         bot.command(input);
     } else {
@@ -25,6 +28,5 @@ inputConsole.on("input", (input) => {
     }
 });
 
-const context = new ContextImpl({ bot, console: inputConsole, parser, config });
 loadPluginDir("./plugins");
 startAllPlugin(context);

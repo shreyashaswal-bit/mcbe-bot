@@ -3,9 +3,9 @@ const { Command, CommanderError } = require("commander");
 const { BlockPosition } = require("./util/data");
 const { Bot } = require("./bot");
 
-/**
- * @type {Bot}
- */
+/**@type {import("../types/context").Context}*/
+let context;
+/**@type {Bot} */
 let bot;
 
 function rmQuot(str) {
@@ -131,12 +131,13 @@ parser
         bot.action(id, { position, resultPosition, face });
     });
 
-function parse(bot_temp, argv) {
-    bot = bot_temp;
+function parse(context_temp, argv) {
+    context = context_temp;
+    ({ bot } = context);
 
     // 由于已经重定向退出方法, 调用 parse 会抛出错误, 这里捕获错误
     try {
-        parser.parse(["", "", ...argv]);
+        parser.parse(argv, { from: "user" });
     } catch (err) {
         // 如果错误不由 Commander 抛出, 则再次抛出错误
         if (!(err instanceof CommanderError)) throw err;
