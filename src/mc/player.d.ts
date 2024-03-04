@@ -1,5 +1,7 @@
 import { Bot } from "../bot";
 
+// TODO: 完善类型
+
 type SkinData = {
     skin_id: string;
     play_fab_id: string;
