@@ -6,6 +6,7 @@
     "scripts": {
         "format": "prettier --write .",
         "build-plugin": "pnpm exec tsc",
+        "clean-plugin": "node ./scripts/clean-plugin.js",
         "start": "pnpm build-plugin && node ."
     },
     "author": "XiYang6666",
