@@ -1,6 +1,5 @@
 import { Command } from "commander";
 
-import { Context } from "../../types/context";
 import { Config } from "../../types/config";
 import { ListenerEx } from "../event/event";
 import { Form } from "../mc/form";
@@ -8,7 +7,7 @@ import { Player } from "../mc/player";
 import { Bot } from "../bot";
 import { Console } from "../console";
 
-export class ContextImpl implements Context {
+export class Context {
     bot: Bot;
     console: Console;
     parser: Command;

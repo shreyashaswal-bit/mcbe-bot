@@ -1,4 +1,4 @@
-class ContextImpl {
+class Context {
     constructor({ bot, console, parser, config }) {
         this.bot = bot;
         this.console = console;
@@ -15,4 +15,4 @@ class ContextImpl {
     }
 }
 
-module.exports = { ContextImpl };
+module.exports = { Context };

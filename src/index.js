@@ -1,12 +1,12 @@
 const { loadPluginDir, startAllPlugin } = require("./loader/pluginLoader");
-const { ContextImpl } = require("./loader/context");
+const { Context } = require("./loader/context");
 const config = require("./config");
 const { parse, parser } = require("./command");
 const { inputConsole } = require("./console");
 const { Bot } = require("./bot");
 
 const bot = new Bot(config.client, config.bot);
-const context = new ContextImpl({ bot, console: inputConsole, parser, config });
+const context = new Context({ bot, console: inputConsole, parser, config });
 
 bot.connect();
 bot.on("close", () => {
