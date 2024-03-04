@@ -4,6 +4,7 @@
 /.vscode/
 /config/config.dev.js
 /type/**/*.js
-/plugins/tsExample.js
-/plugins/*.dev.js
-/plugins/*.dev.ts
+/plugins/*.js
+/plugins/*.ts
+!/plugins/jsExample.js
+!/plugins/tsExample.ts
