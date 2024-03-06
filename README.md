@@ -7,6 +7,9 @@
 
 </div>
 
+> [!NOTE]  
+> 该项目正处于开发阶段, 仅支持部分功能.
+
 ## 简介
 
 mcbe-bot 是一个基于 bedrock-protocol 的 Minecraft 基岩版 bot 框架, 支持插件系统并拥有相对完整的 TypeScript 支持, 用于开发基岩版自动化 bot.
