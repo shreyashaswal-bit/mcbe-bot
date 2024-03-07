@@ -84,6 +84,7 @@ class Bot extends bedrock.Client {
                 // console.debug("[form] 收到表单");
                 emitEx(this, "form", form, (new_data) => {
                     if (new_data) form = new_data;
+                    if (!form.alive) return; // 表单已回复或关闭, 无需再存储并展示.
                     this.currentForm = form;
                     if (this.showForm) {
                         console.log("[form] current form:");
