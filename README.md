@@ -21,7 +21,7 @@ mcbe-bot 是一个基于 bedrock-protocol 的 Minecraft 基岩版 bot 框架, �
 使用您常用的包管理器安装依赖, 推荐使用 pnpm.
 
 ```bash
-pnpn install
+pnpm install
 ```
 
 ### 2. 运行bot
