@@ -29,6 +29,8 @@ export declare class Form {
     content: FormContent[] | string;
     buttons: FormButton[];
 
+    alive: boolean;
+
     constructor(bot: Bot, param: { form_id: number; data: string });
 
     render(): string;

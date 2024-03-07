@@ -9,6 +9,8 @@ class Form {
         this.title = formData.title;
         this.content = formData.content;
         this.buttons = formData.buttons;
+
+        this.alive = true;
     }
 
     render() {
@@ -38,19 +40,18 @@ class Form {
         return result;
     }
 
-    show() {
-        console.log(s.mc(this.render()));
-    }
-
     response(data) {
+        this.alive ? (this.alive = false) : console.log("[form] warning: This form is not alive");
         this.bot.responseForm(this.id, data);
     }
 
     close() {
+        this.alive ? (this.alive = false) : console.log("[form] warning: This form is not alive");
         this.bot.cancelForm(this.id, 0);
     }
 
     busy() {
+        this.alive ? (this.alive = false) : console.log("[form] warning: This form is not alive");
         this.bot.cancelForm(this.id, 1);
     }
 }
