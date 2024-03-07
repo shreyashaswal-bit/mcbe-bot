@@ -1,6 +1,6 @@
 import { BaseText, JsonMessage, Message, RawText, TranslationMessage } from "../../types/text";
 
-declare enum MessageType {
+declare const enum MessageType {
     CHAT = "chat",
     RAW = "raw",
     ANNOUNCEMENT = "announcement",

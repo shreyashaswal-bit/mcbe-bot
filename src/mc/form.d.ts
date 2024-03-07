@@ -1,11 +1,11 @@
 import { Bot } from "../bot";
 
-enum FormType {
+declare const enum FormType {
     FORM = "form",
     CUSTOM_FORM = "custom_form",
 }
 
-enum FormContentType {
+declare const enum FormContentType {
     LABEL = "label",
     INPUT = "input",
     DROPDOWN = "dropdown",
