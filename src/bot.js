@@ -186,9 +186,11 @@ class Bot extends bedrock.Client {
             needs_translation: false,
             // @ts-ignore
             source_name: this.username,
+            message: message,
             xuid: "",
             platform_chat_id: "",
-            message: message,
+            filtered_message: ""
+
         });
     }
 
