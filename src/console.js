@@ -15,7 +15,7 @@ class Console extends EventEmitter {
             lock.lock();
             rl.question("", (input) => {
                 this.emit("input", input);
-                console.log("->",input)
+                console.log("->", input);
                 lock.unlock();
             });
             await lock.status;
