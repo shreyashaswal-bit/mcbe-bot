@@ -2,7 +2,8 @@
 /authdata/
 /*.authdata/
 /.vscode/
-/config/config.dev.js
+/config/*.js
+!/config/config.example.js
 /type/**/*.js
 /plugins/*.js
 /plugins/*.ts
