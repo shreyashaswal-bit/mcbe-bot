@@ -2,7 +2,7 @@ module.exports = {
     client: {
         host: "example.com",
         port: 19132,
-        version: "1.20.40",
+        version: "1.20.0",
         offline: false,
         profilesFolder: "./authdata",
     },

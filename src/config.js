@@ -3,7 +3,7 @@ const path = require("path");
 
 let config = {
     client: {
-        host: "mc.kanfeidie.com",
+        host: "example.com",
         port: 19132,
         version: "1.21.0",
         offline: false,
@@ -25,6 +25,7 @@ let config = {
 const configEnv = process.env.BOT_ENV;
 
 if (configEnv) {
+    console.log(`Loading config from ../config/config.${configEnv}.js`)
     let newConfig = require(`../config/config.${configEnv}`);
     Object.entries(newConfig).forEach(([key, value]) => {
         config[key] = Object.assign(config[key], value);
