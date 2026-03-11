@@ -8,17 +8,16 @@ function startBot() {
   const bot = bedrock.createClient({
     host: host,
     port: port,
-    username: "AFKBot"
+    username: "USHA"
   })
 
   bot.on("join", () => {
-    console.log("Bot joined server")
+    console.log("USHA joined the server")
 
     setInterval(() => {
 
-      console.log("Anti-AFK movement")
+      console.log("USHA doing anti-AFK movement")
 
-      // random small movement (2x2 area)
       const x = (Math.random() - 0.5) * 2
       const z = (Math.random() - 0.5) * 2
 
@@ -33,7 +32,6 @@ function startBot() {
         ridden_runtime_id: 0
       })
 
-      // jump
       bot.queue("player_action", {
         action_id: 8
       })
@@ -43,7 +41,7 @@ function startBot() {
   })
 
   bot.on("disconnect", () => {
-    console.log("Disconnected — reconnecting in 5s")
+    console.log("Disconnected. Reconnecting in 5 seconds...")
     setTimeout(startBot, 5000)
   })
 
