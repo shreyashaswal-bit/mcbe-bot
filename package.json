@@ -1,7 +1,6 @@
 {
   "name": "bedrock-afk-bot",
   "version": "1.0.0",
-  "description": "Simple Bedrock AFK bot for Aternos",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
