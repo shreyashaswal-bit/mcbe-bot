@@ -4,20 +4,21 @@ function startBot() {
   const bot = bedrock.createClient({
     host: "Asnhuaswal.aternos.me",
     port: 56898,
-    username: "IMMORTAL_SURVIVAL_BOT",
-    offline: true
+    username: "IMMORTAL_BOT", // choose any name
+    offline: true,             // OFFLINE MODE ✅
+    version: "1.26.0"          // match server exactly
   })
 
   // Bot joined
   bot.on("join", () => {
-    console.log(`${bot.username} joined server ✅`)
+    console.log(`${bot.username} joined the server ✅`)
 
-    // Anti-AFK jump
+    // Anti-AFK jump (every 6 seconds)
     setInterval(() => {
       bot.queue("player_action", { action: "jump" })
-    }, 4000)
+    }, 6000)
 
-    // Random movement
+    // Random movement (every 5 seconds)
     setInterval(() => {
       const dx = Math.random() * 2 - 1
       const dz = Math.random() * 2 - 1
@@ -28,7 +29,7 @@ function startBot() {
         yaw: bot.position.yaw,
         pitch: bot.position.pitch
       })
-    }, 3000)
+    }, 5000)
   })
 
   // Chat logger
@@ -66,16 +67,8 @@ function startBot() {
 
     const mobsToAttack = ["zombie", "skeleton", "creeper", "spider", "enderman"]
     if (!isPlayer && mobsToAttack.includes(entityType?.toLowerCase())) {
-      // Walk toward mob
-      bot.queue("move_player_pos", {
-        x: bot.position.x + (Math.random() - 0.5),
-        y: bot.position.y,
-        z: bot.position.z + (Math.random() - 0.5),
-        yaw: bot.position.yaw,
-        pitch: bot.position.pitch
-      })
-      // Attack
-      bot.queue("animate", { animation: 0 })
+      // Attack mob
+      bot.queue("animate", { animation: 0 }) // swing hand
       console.log(`Attacking mob: ${entityType}`)
     }
   })
