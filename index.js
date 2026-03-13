@@ -1,6 +1,6 @@
 const bedrock = require("bedrock-protocol");
 
-// CHANGE THESE
+// CONFIG
 const HOST = "Asnhuaswal.aternos.me";
 const PORT = 56898;
 const USERNAME = "USHA"; // offline username
@@ -12,47 +12,28 @@ const bot = bedrock.createClient({
   offline: true // offline mode
 });
 
-// === EVENTS ===
+// EVENT: Bot connected
 bot.on("connect", () => {
   console.log("✅ Bot connected (offline mode)");
 });
 
+// EVENT: Bot spawned in the world
 bot.on("spawn", () => {
   console.log("🚀 Bot spawned in the world!");
 
-  // Anti-AFK jump every 6 seconds
+  // Jump every 5 seconds
   setInterval(() => {
     bot.queue("player_action", { action: "jump" });
-  }, 6000);
-
-  // Anti-fall / teleport up if falling
-  setInterval(() => {
-    if (!bot.position) return;
-    if (bot.position.y < 1) {
-      bot.queue("move_player_pos", {
-        x: bot.position.x,
-        y: 10,
-        z: bot.position.z,
-        yaw: bot.position.yaw,
-        pitch: bot.position.pitch
-      });
-      console.log("⬆️ Prevented fall damage!");
-    }
-  }, 1000);
+    console.log("⬆️ Bot jumped!");
+  }, 5000);
 });
 
-// Fight mobs only
-bot.on("entity_spawn", (entity) => {
-  if (entity.type === "mob") {
-    console.log(`⚔️ Mob spotted: ${entity.type}`);
-    bot.queue("mob_attack", { runtimeEntityId: entity.id });
-  }
-});
-
+// EVENT: Bot disconnected
 bot.on("disconnect", (packet) => {
   console.log("❌ Bot disconnected:", packet.reason);
 });
 
+// EVENT: Error handler
 bot.on("error", (err) => {
   console.error("⚠️ Error:", err.message);
 });
