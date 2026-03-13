@@ -1,11 +1,11 @@
 {
-  "name": "bedrock-afk-bot",
+  "name": "ultimate-survival-bot",
   "version": "1.0.0",
   "main": "index.js",
+  "dependencies": {
+    "bedrock-protocol": "^3.40.0"
+  },
   "scripts": {
     "start": "node index.js"
-  },
-  "dependencies": {
-    "bedrock-protocol": "^3.30.0"
   }
 }
