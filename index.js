@@ -1,7 +1,7 @@
 const bedrock = require("bedrock-protocol");
 
-const HOST = "Asnhuaswal.aternos.me";
-const PORT = 56898;
+const HOST = "aloopaji.falixsrv.me";
+const PORT = 30930;
 const USERNAME = "USHA";
 
 const bot = bedrock.createClient({
