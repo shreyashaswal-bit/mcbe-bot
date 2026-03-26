@@ -1,38 +1,40 @@
-const bedrock = require('bedrock-protocol')
-const express = require('express')
-const app = express()
+const bedrock = require("bedrock-protocol");
+const express = require("express");
 
-app.get('/', (req, res) => res.send('Bot is alive!'))
-app.listen(process.env.PORT || 3000)
+const app = express();
 
-const client = bedrock.createClient({
-  host: 'aloopaji.falixsrv.me', // replace with your server IP
-  port: 37531,
-  username: 'KeepAliveBot',
-  offline: true
-})
+// Uptime endpoint
+app.get("/", (req, res) => {
+  res.send("Bot is alive");
+});
 
-client.on('spawn', () => {
-  console.log('✅ Bot joined!')
+app.listen(3000, () => console.log("Web server running"));
 
-  setInterval(() => {
-    client.queue('player_action', {
-      runtime_entity_id: client.entityId,
-      action: 'jump',
-      block_position: { x: 0, y: 0, z: 0 },
-      result_position: { x: 0, y: 0, z: 0 },
-      face: 0
-    })
-    console.log('⬆️ Bot jumped!')
-  }, 10000)
-})
+function startBot() {
+  const bot = bedrock.createClient({
+    host: "Asnhuaswal.aternos.me",
+    port: 56898,
+    username: "AFK_BOT",
+    offline: true
+  });
 
-client.on('disconnect', (reason) => {
-  console.log('❌ Disconnected:', reason)
-  // Auto reconnect after 5 seconds
-  setTimeout(() => process.exit(1), 5000)
-})
+  bot.on("join", () => {
+    console.log("✅ Bot joined server!");
 
-client.on('error', (err) => {
-  console.log('⚠️ Error:', err)
-})
+    // Anti-AFK (jump every 5 sec)
+    setInterval(() => {
+      bot.queue("player_action", { action: "jump" });
+    }, 5000);
+  });
+
+  bot.on("disconnect", () => {
+    console.log("❌ Disconnected! Reconnecting...");
+    setTimeout(startBot, 5000);
+  });
+
+  bot.on("error", (err) => {
+    console.log("⚠️ Error:", err.message);
+  });
+}
+
+startBot();
