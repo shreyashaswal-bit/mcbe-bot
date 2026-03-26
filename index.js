@@ -1,41 +1,38 @@
-const bedrock = require("bedrock-protocol");
+const bedrock = require('bedrock-protocol')
+const express = require('express')
+const app = express()
 
-const HOST = "aloopaji.falixsrv.me";
-const PORT = 30930;
-const USERNAME = "USHA";
+app.get('/', (req, res) => res.send('Bot is alive!'))
+app.listen(process.env.PORT || 3000)
 
-const bot = bedrock.createClient({
-  host: HOST,
-  port: PORT,
-  username: USERNAME,
+const client = bedrock.createClient({
+  host: 'aloopaji.falixsrv.me', // replace with your server IP
+  port: 37531,
+  username: 'KeepAliveBot',
   offline: true
-});
+})
 
-let entityReady = false;
-
-bot.on("connect", () => {
-  console.log("✅ Bot connected (offline mode)");
-});
-
-bot.on("spawn", () => {
-  console.log("🚀 Bot spawned in the world!");
-  entityReady = true;
+client.on('spawn', () => {
+  console.log('✅ Bot joined!')
 
   setInterval(() => {
-    if (!entityReady) return; // wait for entity to be ready
-    try {
-      bot.queue("player_action", { action: "jump" });
-      console.log("⬆️ Bot jumped!");
-    } catch (err) {
-      console.log("⚠️ Skipping jump, entity not ready yet");
-    }
-  }, 5000); // jump every 5 sec
-});
+    client.queue('player_action', {
+      runtime_entity_id: client.entityId,
+      action: 'jump',
+      block_position: { x: 0, y: 0, z: 0 },
+      result_position: { x: 0, y: 0, z: 0 },
+      face: 0
+    })
+    console.log('⬆️ Bot jumped!')
+  }, 10000)
+})
 
-bot.on("disconnect", (packet) => {
-  console.log("❌ Bot disconnected by server:", packet.reason);
-});
+client.on('disconnect', (reason) => {
+  console.log('❌ Disconnected:', reason)
+  // Auto reconnect after 5 seconds
+  setTimeout(() => process.exit(1), 5000)
+})
 
-bot.on("error", (err) => {
-  console.error("⚠️ Error:", err.message);
-});
+client.on('error', (err) => {
+  console.log('⚠️ Error:', err)
+})
